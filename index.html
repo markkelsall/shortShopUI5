@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <title>Short Shop</title>
+
+    <script id='sap-ui-bootstrap'
+        src='resources/sap-ui-core.js'
+        data-sap-ui-theme='sap_bluecrystal'
+        data-sap-ui-libs='sap.m'
+        data-sap-ui-xx-bindingSyntax="complex">
+    </script>
+    <script>
+        $.sap.registerModulePath("shortShop", "./");
+        $.sap.require("shortShop.js.CITApp");
+        var ssApp = new CITApp("application", "XML", "content", "main", "error.html", true);
+        </script>
+    </head>
+    
+    <body class='sapUiBody'>
+        <div id='content'></div>
+    </body>
+</html>

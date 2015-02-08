@@ -1,0 +1,6 @@
+<mvc:View controllerName="application.register" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+   <Page title="Sign up to Short Shop" showNavButton="true" navButtonPress="onBackPress">
+   		<content>
+   		</content>
+   </Page>
+</mvc:View>
