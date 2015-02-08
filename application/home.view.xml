@@ -3,7 +3,7 @@
    		<content>
    			<Bar design="Header">
    				<contentLeft>
-   					<Button icon="sap-icon://add" press="onAddPress"/>
+   					<Button icon="sap-icon://add" press="onAddPress" text="Add an item"/>
    				</contentLeft>
    				<contentMiddle>
    					<Label text="My list"/>
@@ -12,7 +12,6 @@
    					<Button icon="sap-icon://person-placeholder" press="onUserIconPress"/>
    				</contentRight>
    			</Bar>
-			
    		</content>
    </Page>
 </mvc:View>

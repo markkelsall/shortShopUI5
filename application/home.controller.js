@@ -18,6 +18,6 @@ sap.ui.controller("application.home", {
 	},
 
 	onAddPress : function () {
-		
+		ssApp.getNavigation().toPage("application.add");
 	}
 });

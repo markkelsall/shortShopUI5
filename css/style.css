@@ -1,8 +1,16 @@
-.loginButton {
+.loginView_Buttons {
 	width:100%;
 }
 
-.forgotPassword {
+.loginView_ForgotPassword {
 	margin-top:0.5rem;
 	float:right;
+}
+
+.addView_TextArea {
+	width:100%;
+}
+
+.addView_Buttons {
+	width:100%;
 }

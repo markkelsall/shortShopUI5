@@ -4,9 +4,9 @@
    			<Input type="Text" placeholder="Email"/>
    			<Input type="Password" placeholder="Password"/>
    			<VBox>
-   				<Button text="Login" press="onLoginPress" icon="sap-icon://play" iconFirst="false" class="loginButton"/>
-   				<Button text="Sign up" press="onRegisterPress" icon="sap-icon://account" iconFirst="false" class="loginButton"/>
-   				<Link text="Forgot your password?" press="onForgotPasswordPress" class="forgotPassword"/>
+   				<Button text="Login" press="onLoginPress" icon="sap-icon://play" iconFirst="false" class="loginView_Buttons"/>
+   				<Button text="Sign up" press="onRegisterPress" icon="sap-icon://account" iconFirst="false" class="loginView_Buttons"/>
+   				<Link text="Forgot your password?" press="onForgotPasswordPress" class="loginView_ForgotPassword"/>
    			</VBox>
    		</content>
    </Page>
