@@ -1,5 +1,5 @@
 <?php
-class ShoppingListItemDAO {
+class ShoppingListHeaderDAO {
 	
 	private $dbConn = null;
 	
@@ -7,9 +7,8 @@ class ShoppingListItemDAO {
 		$this->dbConn = $dbConn;
 	}
 	
-	public function create ($shoppingListHeaderId, $itemName, $aisle, $inStock, $dateCreated, $dateUpdated, $amount, $quantity, $additionalComments) {
-		$sql = "INSERT INTO shoppingListItem (shoppingListHeaderId, itemName, aisle, inStock, dateCreated, dateUpdated, amount, quantity, additionalComments) VALUES
-		 ($shoppingListHeaderId', '$itemName', '$aisle', '$inStock', '$dateCreated', '$dateUpdated', '$amount', '$quantity', '$additionalComments')";
+	public function create ($userId) {
+		$sql = "INSERT INTO shoppingListHeader (userId) VALUES ('$userId')";
 		
 		mysqli_query($this->dbConn,$sql);
 		
@@ -17,7 +16,7 @@ class ShoppingListItemDAO {
 	}
 	
 	public function read ($id) {
-		$sql = "SELECT * FROM shoppingListItem WHERE id = '$id'";
+		$sql = "SELECT * FROM shoppingListHeader WHERE id = '$id'";
 		$this->dbConn->escape_string($sql);
 		if(!$result = $this->dbConn->query($sql)){
 			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
@@ -46,12 +45,8 @@ class ShoppingListItemDAO {
 		//return $result
 	}
 
-	public function findAllItemsByHeaderId ($shoppingListHeaderId) {
-
-	}
-
 	public function resultSetToObject ($row) {
-		$obj = new ShoppingListItemDTO();
+		$obj = new ShoppingListHeaderDTO();
 		foreach ($row as $key => $value) {
 			if (!empty($row[$key])) {
 				//print "$key => $value\n";

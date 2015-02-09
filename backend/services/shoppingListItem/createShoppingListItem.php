@@ -6,15 +6,15 @@ include '../../includes/DTO/ShoppingListItemDTO.php';
 header('Content-Type: application/json');
 
 //get object sent
-if(!isset($_GET['itemName']) || !isset($_GET['quantity']) || !isset($_GET['amount'])) {
+if(!isset($_GET['name']) || !isset($_GET['quantity']) || !isset($_GET['additionalComments'])) {
 	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item name, quantity and amount are all required');
 	echo json_encode($response);
 	exit();
 }
 
-$itemName = $_GET['itemName'];
+$name = $_GET['name'];
 $quantity = $_GET['quantity'];
-$amount = $_GET['amount'];
+$additionalComments = $_GET['additionalComments'];
 
 try {
 	$dbConn = new DbConn();
