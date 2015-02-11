@@ -21,9 +21,9 @@ class ShoppingListHeaderDAO {
 		if(!$result = $this->dbConn->query($sql)){
 			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
 		} else {
-			$obj = new ShoppingListItemDTO();
+			$obj = new ShoppingListHeaderDTO();
 			while ($row = $result->fetch_assoc()) {
-				$obj = resultSetToObject($row);
+				$obj = $this->resultSetToObject($row);
 			}
 			return $u;
 		}
@@ -43,6 +43,20 @@ class ShoppingListHeaderDAO {
 		//make db call using dbConn
 		
 		//return $result
+	}
+
+	public function findByUserId ($userId) {
+		$sql = "SELECT * FROM shoppingListHeader WHERE userId = '$userId'";
+		$this->dbConn->escape_string($sql);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+		} else {
+			$obj = new ShoppingListHeaderDTO();
+			while ($row = $result->fetch_assoc()) {
+				$obj = $this->resultSetToObject($row);
+			}
+			return $obj;
+		}
 	}
 
 	public function resultSetToObject ($row) {

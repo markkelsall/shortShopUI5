@@ -47,7 +47,20 @@ class ShoppingListItemDAO {
 	}
 
 	public function findAllItemsByHeaderId ($shoppingListHeaderId) {
-
+		$sql = "SELECT * FROM shoppingListItem WHERE shoppingListHeaderId = '$shoppingListHeaderId'";
+		$this->dbConn->escape_string($sql);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+		} else {
+			$objArray = array();
+			$i = 0;
+			while ($row = $result->fetch_assoc()) {
+				$obj = $this->resultSetToObject($row);
+				$objArray[$i] = $obj;
+				$i++;
+			}
+			return $objArray;
+		}
 	}
 
 	public function resultSetToObject ($row) {

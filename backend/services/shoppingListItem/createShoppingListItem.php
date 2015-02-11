@@ -4,6 +4,7 @@ include '../../includes/DAO/ShoppingListItemDAO.php';
 include '../../includes/DTO/ShoppingListItemDTO.php';
 
 header('Content-Type: application/json');
+session_start();
 
 //get object sent
 if(!isset($_GET['name']) || !isset($_GET['quantity']) || !isset($_GET['additionalComments'])) {
@@ -12,6 +13,8 @@ if(!isset($_GET['name']) || !isset($_GET['quantity']) || !isset($_GET['additiona
 	exit();
 }
 
+$userId = $_SESSION['userId'];
+
 $name = $_GET['name'];
 $quantity = $_GET['quantity'];
 $additionalComments = $_GET['additionalComments'];
@@ -19,9 +22,9 @@ $additionalComments = $_GET['additionalComments'];
 try {
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();
-	
+
 	$slid = new ShoppingListItemDAO($con);
-	$sli = $uslid->create($shoppingListItemId);
+	$sli = $slid->create($name, $quantity, $additionalComments);
 	
 	//close database connection
 	$dbConn->dbClose();
