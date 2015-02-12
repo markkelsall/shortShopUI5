@@ -1,17 +1,21 @@
 <mvc:View controllerName="application.home" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
    <Page showHeader="false">
    		<content>
-   			<Bar design="Header">
+   			<Bar design="Header" class="sapMPageHeader">
    				<contentLeft>
    					<Button icon="sap-icon://add" press="onAddPress" text="Add an item"/>
    				</contentLeft>
    				<contentMiddle>
-   					<Label text="My list"/>
+   					<Label text="My list ({listHeader>/itemCount})"/>
    				</contentMiddle>
    				<contentRight>
    					<Button icon="sap-icon://person-placeholder" press="onUserIconPress"/>
    				</contentRight>
    			</Bar>
+
+            <List items="{path: '{listItems>/data}'}">
+               <StandardListItem title="{listItems>/itemName}"/>
+            </List>
    		</content>
    </Page>
 </mvc:View>

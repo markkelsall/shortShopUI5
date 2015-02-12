@@ -55,8 +55,7 @@ class ShoppingListItemDAO {
 			$objArray = array();
 			$i = 0;
 			while ($row = $result->fetch_assoc()) {
-				$obj = $this->resultSetToObject($row);
-				$objArray[$i] = $obj;
+				$objArray[$i] = $this->resultSetToObject($row);
 				$i++;
 			}
 			return $objArray;

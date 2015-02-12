@@ -10,5 +10,6 @@ class ShoppingListItemDTO {
 	public $quantity;
 	public $additionalComments;
 	public $dateUpdated;
+	public $currency;
 }
 ?>

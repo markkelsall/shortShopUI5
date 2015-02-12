@@ -17,7 +17,7 @@ sap.ui.controller("application.login", {
 		
 		$.ajax({
 			url : "backend/services/user/loginUser.php",
-			type : "POST",
+			type : "GET",
 			async : true,
 			data : data,
 			success : function (data) {
@@ -26,6 +26,12 @@ sap.ui.controller("application.login", {
 
 					var jModel = new sap.ui.model.json.JSONModel(data.user);
 					sap.ui.getCore().setModel(jModel, "user");
+
+					var jModel = new sap.ui.model.json.JSONModel({data : data.listItems});
+					sap.ui.getCore().setModel(jModel, "listItems");
+
+					var jModel = new sap.ui.model.json.JSONModel(data.listHeader);
+					sap.ui.getCore().setModel(jModel, "listHeader");
 
 					ssApp.getNavigation().toPage("application.home");
 				} else {
