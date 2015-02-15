@@ -13,8 +13,8 @@
    				</contentRight>
    			</Bar>
 
-            <List items="{path: '{listItems>/data}'}">
-               <StandardListItem title="{listItems>/itemName}"/>
+            <List items="{path: 'listItems>/data'}">
+               <ObjectListItem type="Active" title="{listItems>itemName}" press="onListItemPress"/>
             </List>
    		</content>
    </Page>

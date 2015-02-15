@@ -7,15 +7,16 @@ header('Content-Type: application/json');
 session_start();
 
 //get object sent
-if(!isset($_GET['name']) || !isset($_GET['quantity']) || !isset($_GET['additionalComments'])) {
+if(!isset($_GET['name']) || !isset($_GET['quantity'])) {
 	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item name, quantity and amount are all required');
 	echo json_encode($response);
 	exit();
 }
 
-$userId = $_SESSION['userId'];
+$userId = $_SESSION['loggedInUserId'];
+$listHeaderId = $_SESSION['loggedInUserListHeaderId'];
 
-$name = $_GET['name'];
+$itemName = $_GET['name'];
 $quantity = $_GET['quantity'];
 $additionalComments = $_GET['additionalComments'];
 
@@ -24,13 +25,13 @@ try {
 	$con = $dbConn->dbConnect();
 
 	$slid = new ShoppingListItemDAO($con);
-	$sli = $slid->create($name, $quantity, $additionalComments);
-	
+	$sli = $slid->create($listHeaderId, $itemName, '1', 'Y', '10.99', $quantity, $additionalComments);
+	echo $sli;
 	//close database connection
 	$dbConn->dbClose();
 	
 	if ($sli->id == null || $sli->id == "") {
-		$response = array('user'=> $sli,'result'=>FALSE, 'message'=>'No item found');
+		$response = array('item'=> $sli,'result'=>FALSE, 'message'=>'Could not create item.');
 		echo json_encode($response);
 	} else {
 		$response = array('user'=> $sli,'result'=>TRUE);

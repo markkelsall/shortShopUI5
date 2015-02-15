@@ -7,12 +7,13 @@ class ShoppingListItemDAO {
 		$this->dbConn = $dbConn;
 	}
 	
-	public function create ($shoppingListHeaderId, $itemName, $aisle, $inStock, $dateCreated, $dateUpdated, $amount, $quantity, $additionalComments) {
-		$sql = "INSERT INTO shoppingListItem (shoppingListHeaderId, itemName, aisle, inStock, dateCreated, dateUpdated, amount, quantity, additionalComments) VALUES
-		 ($shoppingListHeaderId', '$itemName', '$aisle', '$inStock', '$dateCreated', '$dateUpdated', '$amount', '$quantity', '$additionalComments')";
+	public function create ($shoppingListHeaderId, $itemName, $aisle, $inStock, $amount, $quantity, $additionalComments) {
+		$sql = "INSERT INTO shoppingListItem (shoppingListHeaderId, itemName, aisle, inStock, amount, quantity, additionalComments) VALUES
+		 ($shoppingListHeaderId', '$itemName', '$aisle', '$inStock', '$amount', '$quantity', '$additionalComments')";
 		
-		mysqli_query($this->dbConn,$sql);
+		mysqli_query($this->dbConn, $sql);
 		
+		// return $this->dbConn->insert_id;
 		return mysqli_insert_id($this->dbConn);
 	}
 	
