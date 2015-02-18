@@ -59,6 +59,31 @@ class ShoppingListHeaderDAO {
 		}
 	}
 
+	public function updateItemCount ($itemHeaderId) {
+
+		$sql = "SELECT `itemCount` FROM `shoppingListHeader` WHERE `id` = '$itemHeaderId'";
+		
+		$this->dbConn->escape_string($sql);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+		} else {
+			$obj = new ShoppingListHeaderDTO();
+			$itemCount = 0;
+			while ($row = $result->fetch_assoc()) {
+				$itemCount = $row['itemCount'];
+			}
+			$itemCount = $itemCount + 1;
+			
+			$sql = "UPDATE shoppingListHeader SET itemCount = '$itemCount' WHERE id = '$itemHeaderId'";
+			$this->dbConn->escape_string($sql);
+			if(!$result = $this->dbConn->query($sql)){
+				throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+			} else {
+				return mysqli_affected_rows($this->dbConn);
+			}
+		}
+	}
+
 	public function resultSetToObject ($row) {
 		$obj = new ShoppingListHeaderDTO();
 		foreach ($row as $key => $value) {

@@ -2,6 +2,8 @@
 include '../../includes/DAO/DbConn.php';
 include '../../includes/DAO/ShoppingListItemDAO.php';
 include '../../includes/DTO/ShoppingListItemDTO.php';
+include '../../includes/DAO/ShoppingListHeaderDAO.php';
+include '../../includes/DTO/ShoppingListHeaderDTO.php';
 
 header('Content-Type: application/json');
 session_start();
@@ -25,16 +27,19 @@ try {
 	$con = $dbConn->dbConnect();
 
 	$slid = new ShoppingListItemDAO($con);
-	$sli = $slid->create($listHeaderId, $itemName, '1', 'Y', '10.99', $quantity, $additionalComments);
-	echo $sli;
+	$id = $slid->create($listHeaderId, $itemName, '1', 'Y', '10.99', $quantity, $additionalComments);
+	
+	$slhd = new ShoppingListHeaderDAO($con);
+	$id = $slhd->updateItemCount($listHeaderId);
+	
 	//close database connection
 	$dbConn->dbClose();
 	
-	if ($sli->id == null || $sli->id == "") {
-		$response = array('item'=> $sli,'result'=>FALSE, 'message'=>'Could not create item.');
+	if ($id == null || $id == "") {
+		$response = array('item'=> $id,'result'=>FALSE, 'message'=>'Could not create item.');
 		echo json_encode($response);
 	} else {
-		$response = array('user'=> $sli,'result'=>TRUE);
+		$response = array('item'=> $id,'result'=>TRUE);
 		echo json_encode($response);
 	}
 } catch (Exception $e) {

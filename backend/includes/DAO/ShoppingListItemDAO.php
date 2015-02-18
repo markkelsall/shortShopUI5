@@ -9,7 +9,7 @@ class ShoppingListItemDAO {
 	
 	public function create ($shoppingListHeaderId, $itemName, $aisle, $inStock, $amount, $quantity, $additionalComments) {
 		$sql = "INSERT INTO shoppingListItem (shoppingListHeaderId, itemName, aisle, inStock, amount, quantity, additionalComments) VALUES
-		 ($shoppingListHeaderId', '$itemName', '$aisle', '$inStock', '$amount', '$quantity', '$additionalComments')";
+		 ('$shoppingListHeaderId', '$itemName', '$aisle', '$inStock', '$amount', '$quantity', '$additionalComments')";
 		
 		mysqli_query($this->dbConn, $sql);
 		

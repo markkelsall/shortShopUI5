@@ -47,9 +47,8 @@ try {
 		$slhd = new ShoppingListHeaderDAO($con);
 		$slh = $slhd->findByUserId($u->id);
 		
-		//save the list header id and count for access later
+		//save the list header id for access later
 		$_SESSION['loggedInUserListHeaderId'] = $slh->id;
-		$_SESSION['loggedInUserListHeaderCount'] = $slh->itemCount;
 		
 		$slid = new ShoppingListItemDAO($con);
 		$slil = $slid->findAllItemsByHeaderId($slh->id);
