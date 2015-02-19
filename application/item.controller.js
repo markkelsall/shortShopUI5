@@ -1,15 +1,17 @@
-sap.ui.controller("application.add", {
+sap.ui.controller("application.item", {
 	
 	onInit : function () {
-		addController = this;
+		itemController = this;
 
-		var itemModel = {
-			name : "name",
-			quantity : "quantity",
-			additionalComments : "additionalComments"
-		};
+		itemController.getView().addEventDelegate({
+			onBeforeShow: function(evt) {
+      			itemController.onBeforeShow(evt.data);
+   			}
+		});
+	},
 
-		var jModel = new sap.ui.model.json.JSONModel(itemModel);
+	onBeforeShow : function (item) {
+		var jModel = new sap.ui.model.json.JSONModel(item);
 		sap.ui.getCore().setModel(jModel, "item");
 
 		var itemMessageModel = {
@@ -43,5 +45,9 @@ sap.ui.controller("application.add", {
 
 	onBackPress : function () {
 		ssApp.getNavigation().backPage();
+	},
+
+	formatTitle : function (itemName) {
+		console.log(itemName);
 	}
 });

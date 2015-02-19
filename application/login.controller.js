@@ -21,7 +21,6 @@ sap.ui.controller("application.login", {
 			async : true,
 			data : data,
 			success : function (data) {
-				console.log(data);
 				if (data.result) {
 
 					var jModel = new sap.ui.model.json.JSONModel(data.user);

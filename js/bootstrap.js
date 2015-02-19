@@ -3,6 +3,7 @@ var bootstrap = {
 		namespaces : [],
 		
 		jsFiles : [
+			 	"js.Formatter",
 			 	"js.utils.DateFormatter",
 			 	"js.utils.Logger",
 			 	"js.utils.Util",

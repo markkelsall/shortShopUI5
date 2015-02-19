@@ -9,10 +9,12 @@ sap.ui.controller("application.home", {
 	},
 
 	onAddPress : function () {
-		ssApp.getNavigation().toPage("application.add");
+		ssApp.getNavigation().toPage("application.item");
 	},
 
 	onListItemPress : function (e) {
-		
+		var item = e.getSource().getBindingContext("listItems").getObject();
+
+		ssApp.getNavigation().toPage("application.item", item);	
 	}
 });
