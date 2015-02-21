@@ -31,7 +31,7 @@ try {
 	$con = $dbConn->dbConnect();
 
 	$slid = new ShoppingListItemDAO($con);
-	$id = $slid->create($listHeaderId, $itemName, '1', 'Y', '10.99', $quantity, $additionalComments);
+	$id = $slid->update($listHeaderId, $itemName, '1', 'Y', '10.99', $quantity, $additionalComments);
 	
 	$slhd = new ShoppingListHeaderDAO($con);
 	$id = $slhd->updateItemCount($listHeaderId);

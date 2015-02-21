@@ -1,11 +1,10 @@
 <mvc:View controllerName="application.item" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
-   <Page title="{path:'item>/itemName', formatter:'Formatter.formatItemTitle'}" showNavButton="true" navButtonPress="onBackPress">
+   <Page title="{parts:[{path:'item>/id'},{path:'item>/itemName'}], formatter:'Formatter.itemViewFormatItemTitle'}" showNavButton="true" navButtonPress="onBackPress">
    		<content>
             <Input type="Text" placeholder="item name" value="{item>/itemName}"/>
-            <Input type="Text" placeholder="quantity" value="{item>/quantity}"/>
+            <Input type="Number" placeholder="quantity" value="{item>/quantity}"/>
             <TextArea placeholder="additional comments" class="addView_TextArea" value="{item>/additionalComments}"/>
-            <Button text="Add item" press="onAddItemPress" icon="sap-icon://add" class="addView_Buttons" iconFirst="false"/>
-            <Label text="{itemMessage>/friendlyMessage}" visible="{itemMessage>/result}"/>
+            <Button text="{path:'item>/id', formatter:'Formatter.itemViewFormatButtonText'}" press="onAddUpdateItemPress" icon="{path:'item>/id', formatter:'Formatter.itemViewFormatButtonIcon'}" class="addView_Buttons" iconFirst="false"/>
    		</content>
    </Page>
 </mvc:View>

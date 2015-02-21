@@ -32,11 +32,13 @@ class ShoppingListItemDAO {
 	}
 	
 	public function update ($shoppingListHeaderId, $itemName, $aisle, $inStock, $dateUpdated, $amount, $quantity, $additionalComments) {
-		//check to see if connection is valid
-		
-		//make db call using dbConn
-		
-		//return $result
+		$sql = "UPDATE shoppingListItem SET itemCount = '$itemCount' WHERE id = '$itemHeaderId'";
+		$this->dbConn->escape_string($sql);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+		} else {
+			return mysqli_affected_rows($this->dbConn);
+		}
 	}
 	
 	public function delete ($username) {

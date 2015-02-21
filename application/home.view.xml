@@ -6,14 +6,14 @@
    					<Button icon="sap-icon://add" press="onAddPress" text="Add an item"/>
    				</contentLeft>
    				<contentMiddle>
-   					<Label text="My list ({listHeader>/itemCount})"/>
+   					<Label text="{path:'listHeader>/itemCount', formatter:'Formatter.homeViewTitle'}"/>
    				</contentMiddle>
    				<contentRight>
    					<Button icon="sap-icon://person-placeholder" press="onUserIconPress"/>
    				</contentRight>
    			</Bar>
 
-            <List items="{path: 'listItems>/data'}">
+            <List items="{path: 'listItems>/data'}" noDataText="Add an item to your list to get going">
                <ObjectListItem type="Active" title="{listItems>itemName}" press="onListItemPress"/>
             </List>
    		</content>
