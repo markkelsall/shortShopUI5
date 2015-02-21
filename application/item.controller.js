@@ -31,6 +31,7 @@ sap.ui.controller("application.item", {
 							//success
 							ssApp.getNavigation().backPage({message : "Item updated"});
 						} else {
+							//fail
 							sap.m.MessageToast.show(data.message);
 						}
 					} else {
@@ -52,6 +53,22 @@ sap.ui.controller("application.item", {
 					if (data !== undefined && data !== null) {
 						if (data.result === true) {
 							//success
+							//get the list items to add item
+							var listItems = sap.ui.getCore().getModel("listItems").getData();
+
+							var item = sap.ui.getCore().getModel("item").getData();
+							listItems.data.push(item);
+
+							var jModel = new sap.ui.model.json.JSONModel(listItems);
+							sap.ui.getCore().setModel(jModel, "listItems");
+
+							//get the list header to add 1 to it
+							var listHeader = sap.ui.getCore().getModel("listHeader").getData();
+							listHeader.itemCount = parseInt(listHeader.itemCount) + 1;
+
+							var jModel = new sap.ui.model.json.JSONModel(listHeader);
+							sap.ui.getCore().setModel(jModel, "listHeader");
+
 							ssApp.getNavigation().backPage({message : "Item created"});
 						} else {
 							sap.m.MessageToast.show(data.message);
