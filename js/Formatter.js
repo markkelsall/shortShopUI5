@@ -29,5 +29,11 @@ var Formatter = {
 		} else {
 			return "My list (" + itemCount + ")";
 		}
+	},
+
+	listMode : function (device) {
+		if (device.system.desktop) {
+			return "Delete";
+		}
 	}
 };

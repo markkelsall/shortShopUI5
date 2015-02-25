@@ -29,6 +29,18 @@ sap.ui.controller("application.item", {
 					if (data !== undefined && data !== null) {
 						if (data.result === true) {
 							//success
+							var listItems = sap.ui.getCore().getModel("listItems").getData();
+
+							for (var i = 0; i < listItems.data.length; i++) {
+								if (item.id === listItems.data[i].id) {
+									listItems.data[i] = item;
+									break;
+								}
+							}
+
+							var jModel = new sap.ui.model.json.JSONModel({data : listItems.data});
+							sap.ui.getCore().setModel(jModel, "listItems");
+
 							ssApp.getNavigation().backPage({message : "Item updated"});
 						} else {
 							//fail
@@ -91,9 +103,5 @@ sap.ui.controller("application.item", {
 
 	onBackPress : function () {
 		ssApp.getNavigation().backPage();
-	},
-
-	formatTitle : function (itemName) {
-		console.log(itemName);
 	}
 });

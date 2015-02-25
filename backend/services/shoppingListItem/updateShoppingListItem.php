@@ -44,16 +44,16 @@ try {
 	$con = $dbConn->dbConnect();
 
 	$slid = new ShoppingListItemDAO($con);
-	$id = $slid->update($id, $itemName, $aisle, $inStock, $amount, $quantity, $additionalComments) ;
+	$itemsAffected = $slid->update($id, $itemName, $aisle, $inStock, $amount, $quantity, $additionalComments) ;
 	
 	//close database connection
 	$dbConn->dbClose();
 	
 	if ($id == null || $id == "") {
-		$response = array('item'=> $id,'result'=>FALSE, 'message'=>'Could not update item.');
+		$response = array('result'=>FALSE, 'message'=>'Could not update item.');
 		echo json_encode($response);
 	} else {
-		$response = array('item'=> $id,'result'=>TRUE);
+		$response = array('item'=> $itemsAffected,'result'=>TRUE);
 		echo json_encode($response);
 	}
 } catch (Exception $e) {

@@ -33,7 +33,6 @@ class ShoppingListItemDAO {
 	
 	public function update ($itemId, $itemName, $aisle, $inStock, $amount, $quantity, $additionalComments) {
 		$sql = "UPDATE shoppingListItem SET itemName = '$itemName', aisle = '$aisle', inStock = '$inStock', amount = '$amount', quantity = '$quantity', additionalComments = '$additionalComments', dateUpdated = now() WHERE id = '$itemId'";
-		 echo $sql;
 		$this->dbConn->escape_string($sql);
 		if(!$result = $this->dbConn->query($sql)){
 			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');

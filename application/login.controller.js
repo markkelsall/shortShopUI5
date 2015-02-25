@@ -32,6 +32,9 @@ sap.ui.controller("application.login", {
 					var jModel = new sap.ui.model.json.JSONModel(data.listHeader);
 					sap.ui.getCore().setModel(jModel, "listHeader");
 
+					var jModel = new sap.ui.model.json.JSONModel({data : sap.ui.Device});
+					sap.ui.getCore().setModel(jModel, "device");
+					
 					ssApp.getNavigation().toPage("application.home");
 				} else {
 					//no user found

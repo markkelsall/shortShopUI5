@@ -13,8 +13,11 @@
    				</contentRight>
    			</Bar>
 
-            <List items="{path: 'listItems>/data'}" noDataText="Add an item to your list to get going">
+            <List id="listItems" items="{path: 'listItems>/data'}" mode="{path:'device>/data', formatter:'Formatter.listMode'}" noDataText="Add an item to your list to get going">
                <ObjectListItem type="Active" title="{listItems>itemName}" press="onListItemPress"/>
+               <swipeContent>
+                  <Button text="Delete Item" type="Reject" press="handleSwipeDelete"/>
+               </swipeContent>
             </List>
    		</content>
    </Page>

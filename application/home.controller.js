@@ -28,5 +28,17 @@ sap.ui.controller("application.home", {
 		var item = e.getSource().getBindingContext("listItems").getObject();
 
 		ssApp.getNavigation().toPage("application.item", item);	
-	}
+	},
+
+	handleSwipeDelete: function(oEvent) {
+    	var oList = oEvent.getSource();
+    	var oItem = oEvent.getParameter("listItem");
+		var sPath = oItem.getBindingContext().getPath();
+    	
+    	// after deletion put the focus back to the list
+    	oList.attachEventOnce("updateFinished", oList.focus, oList);
+    	
+    	// send a delete request to the odata service
+    	this.oProductModel.remove(sPath);
+  	}
 });
