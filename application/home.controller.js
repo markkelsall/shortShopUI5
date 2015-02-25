@@ -33,7 +33,14 @@ sap.ui.controller("application.home", {
 	handleDeleteGesture: function(oEvent) {
 		var item = oEvent.getParameter("listItem").getBindingContext("listItems").getObject();
 		
-		var jModel = sap.ui.model.json.JSONModel(item);
+		var jModel = new sap.ui.model.json.JSONModel(item);
 		sap.ui.getCore().setModel(jModel, "deleteItem");
+
+		var fragment = new sap.ui.xmlfragment("application.fragments.deleteItem");
+		fragment.open();
+  	},
+
+  	onDialogCloseButton : function (oEvent) {
+
   	}
 });
