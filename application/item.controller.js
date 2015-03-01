@@ -69,6 +69,7 @@ sap.ui.controller("application.item", {
 							var listItems = sap.ui.getCore().getModel("listItems").getData();
 
 							var item = sap.ui.getCore().getModel("item").getData();
+							item.id = data.itemId;
 							listItems.data.push(item);
 
 							var jModel = new sap.ui.model.json.JSONModel(listItems);

@@ -9,8 +9,8 @@ header('Content-Type: application/json');
 session_start();
 
 //get object sent
-if(!isset($_GET['itemName']) || !isset($_GET['quantity'])) {
-	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item name and quantity are required');
+if(!isset($_GET['id'])) {
+	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item id is required');
 	echo json_encode($response);
 	exit();
 }
@@ -18,36 +18,30 @@ if(!isset($_GET['itemName']) || !isset($_GET['quantity'])) {
 $userId = $_SESSION['loggedInUserId'];
 $listHeaderId = $_SESSION['loggedInUserListHeaderId'];
 
-$itemName = $_GET['itemName'];
-$quantity = $_GET['quantity'];
-
-$additionalComments = "";
-if (isset($_GET['additionalComments'])) {
-	$additionalComments = $_GET['additionalComments'];
-}
+$id = $_GET['id'];
 
 try {
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();
 
 	$slid = new ShoppingListItemDAO($con);
-	$id = $slid->create($listHeaderId, $itemName, '1', 'Y', '10.99', $quantity, $additionalComments);
+	$itemsAffected = $slid->delete($id);
 	
 	$slhd = new ShoppingListHeaderDAO($con);
-	$slhd->updateItemCount($listHeaderId, "add");
-	
+	$id = $slhd->updateItemCount($listHeaderId, "minus");
+
 	//close database connection
 	$dbConn->dbClose();
 	
 	if ($id == null || $id == "") {
-		$response = array('itemId'=> $id,'result'=>FALSE, 'message'=>'Could not create item.');
+		$response = array('result'=>FALSE, 'message'=>'Could not delete item.');
 		echo json_encode($response);
 	} else {
-		$response = array('itemId'=> $id,'result'=>TRUE);
+		$response = array('item'=> $itemsAffected,'result'=>TRUE);
 		echo json_encode($response);
 	}
 } catch (Exception $e) {
-	$response = array('user'=> null,'result'=>TRUE, 'message'=>$e->getMessage());
+	$response = array('item'=> null,'result'=>TRUE, 'message'=>$e->getMessage());
 	echo json_encode($response);
 }
 ?>

@@ -13,7 +13,7 @@
    				</contentRight>
    			</Bar>
 
-            <List id="listItems" items="{path: 'listItems>/data'}" delete="handleDeleteGesture" mode="{path:'device>/data', formatter:'Formatter.listMode'}" noDataText="Add an item to your list to get going">
+            <List id="listItems" items="{path: 'listItems>/data'}" delete="handleDeleteGesture" mode="{path:'device>/data', formatter:'Formatter.listMode'}" noDataText="Add an item to get started">
                <ObjectListItem type="Active" title="{listItems>itemName}" press="onListItemPress"/>
                <swipeContent>
                   <Button text="Delete Item" type="Reject" press="handleDeleteGesture"/>

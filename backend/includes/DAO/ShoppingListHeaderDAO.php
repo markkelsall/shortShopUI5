@@ -59,7 +59,7 @@ class ShoppingListHeaderDAO {
 		}
 	}
 
-	public function updateItemCount ($itemHeaderId) {
+	public function updateItemCount ($itemHeaderId, $operator) {
 
 		$sql = "SELECT `itemCount` FROM `shoppingListHeader` WHERE `id` = '$itemHeaderId'";
 		
@@ -72,9 +72,15 @@ class ShoppingListHeaderDAO {
 			while ($row = $result->fetch_assoc()) {
 				$itemCount = $row['itemCount'];
 			}
-			$itemCount = $itemCount + 1;
+
+			if ($operator == "add") {
+				$itemCount = $itemCount + 1;
+			} else if ($operator == "minus") {
+				$itemCount = $itemCount - 1;
+			}
 			
-			$sql = "UPDATE shoppingListHeader SET itemCount = '$itemCount' WHERE id = '$itemHeaderId'";
+			
+			$sql = "UPDATE shoppingListHeader SET itemCount = '$itemCount', dateUpdated = NOW() WHERE id = '$itemHeaderId'";
 			$this->dbConn->escape_string($sql);
 			if(!$result = $this->dbConn->query($sql)){
 				throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
