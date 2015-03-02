@@ -8,12 +8,14 @@ class UserDAO {
 	}
 	
 	public function create ($email, $firstName, $lastName, $password) {
-		$sql = "INSERT INTO user (email, firstName, lastName, password) VALUES
-		 ($email', '$firstName', '$lastName', '$password')";
+		$sql = "INSERT INTO user VALUES (NULL, $email', '$firstName', '$lastName', '$password')";
+		$this->dbConn->escape_string($sql);
 		
-		mysqli_query($this->dbConn,$sql);
-		
-		return mysqli_insert_id($this->dbConn);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+		} else {
+			return $this->dbConn->insert_id;
+		}
 	}
 	
 	public function read ($id) {

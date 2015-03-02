@@ -26,10 +26,16 @@ try {
 	//start database connection
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();
+
+	$options = [
+	    'cost' => 11,
+	];
+	
+	$hash = password_hash($password, PASSWORD_BCRYPT, $options);
 	
 	//query against user table
 	$user = new UserDAO($con);
-	$u = $user->login($email, $password);
+	$u = $user->login($email, $hash);
 	
 	//check for a response
 	if ($u->id == null || $u->id == "") {

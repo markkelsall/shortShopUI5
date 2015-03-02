@@ -2,6 +2,8 @@
 include '../../includes/DAO/DbConn.php';
 include '../../includes/DAO/UserDAO.php';
 include '../../includes/DTO/UserDTO.php';
+include '../../includes/DAO/ShoppingListHeaderDAO.php';
+include '../../includes/DTO/ShoppingListHeaderDTO.php';
 
 //get the user details from post
 if(!isset($_POST['email']) || !isset($_POST['firstName']) || !isset($_POST['lastName']) ||
@@ -15,21 +17,38 @@ $email = $_POST['email'];
 $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
 $password = $_POST['password'];
+$password = $_POST['passwordAgain'];
 
-$dbConn = new DbConn();
-$con = $dbConn->dbConnect();
+try {
 
-$user = new UserDAO($con);
-$createResp = $user->create($email, $firstName, $lastName, $password);
+	$options = [
+	    'cost' => 11,
+	];
 
-//close database connection
-$dbConn->dbClose();
+	$hash = password_hash($password, PASSWORD_BCRYPT, $options);
 
-if ($createResp != null && $createResp != "") {
-	$response = array('result'=>TRUE, 'message'=>'User created.');
-	echo json_encode($response);
-} else {
-	$response = array('result'=>FALSE, 'message'=>'Could not create user.');
+	$dbConn = new DbConn();
+	$con = $dbConn->dbConnect();
+
+	$user = new UserDAO($con);
+	$userId = $user->create($email, $firstName, $lastName, $hash);
+
+	if ($userId != null) {
+
+		$slhd = new ShoppingListHeaderDAO($con);
+		$listHeaderId = $slhd->create($userId);
+
+		$response = array('result'=>TRUE, 'message'=>'User created.');
+		echo json_encode($response);
+	} else {
+		$response = array('result'=>FALSE, 'message'=>'Could not create user.');
+		echo json_encode($response);
+	}
+
+	$dbConn->dbClose();
+
+} catch (Exception $e) {
+	$response = array('user'=> null,'result'=>TRUE, 'message'=>$e->getMessage());
 	echo json_encode($response);
 }
 ?>
