@@ -6,18 +6,17 @@ include '../../includes/DAO/ShoppingListHeaderDAO.php';
 include '../../includes/DTO/ShoppingListHeaderDTO.php';
 
 //get the user details from post
-if(!isset($_POST['email']) || !isset($_POST['firstName']) || !isset($_POST['lastName']) ||
-	|| !isset($_POST['password'])) {
+if(!isset($_GET['email']) || !isset($_GET['firstName']) || !isset($_GET['lastName']) || !isset($_GET['password'])) {
 	$response = array('user'=> null,'result'=>FALSE, 'message'=>'Email, first name, last name and password are all required');
 	echo json_encode($response);
 	exit();
 }
 
-$email = $_POST['email'];
-$firstName = $_POST['firstName'];
-$lastName = $_POST['lastName'];
-$password = $_POST['password'];
-$password = $_POST['passwordAgain'];
+$email = $_GET['email'];
+$firstName = $_GET['firstName'];
+$lastName = $_GET['lastName'];
+$password = $_GET['password'];
+$password = $_GET['passwordAgain'];
 
 try {
 
@@ -26,12 +25,18 @@ try {
 	];
 
 	$hash = password_hash($password, PASSWORD_BCRYPT, $options);
-
+	
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();
 
-	$user = new UserDAO($con);
-	$userId = $user->create($email, $firstName, $lastName, $hash);
+	$$user->checkEmailExists($email);
+
+	if ($user ) {
+
+	}
+
+	$userDao = new UserDAO($con);
+	$userId = $userDao->create($email, $firstName, $lastName, $hash);
 
 	if ($userId != null) {
 

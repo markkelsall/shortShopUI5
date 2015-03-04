@@ -8,9 +8,9 @@ class UserDAO {
 	}
 	
 	public function create ($email, $firstName, $lastName, $password) {
-		$sql = "INSERT INTO user VALUES (NULL, $email', '$firstName', '$lastName', '$password')";
+		$sql = "INSERT INTO user VALUES (NULL, '$firstName', '$lastName', '$email', '$password', NOW(), NOW())";
 		$this->dbConn->escape_string($sql);
-		
+		echo $sql;
 		if(!$result = $this->dbConn->query($sql)){
 			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
 		} else {
@@ -65,6 +65,20 @@ class UserDAO {
 	
 	public function login ($email, $password) {
 		$sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+		$this->dbConn->escape_string($sql);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
+		} else {
+			$u = new UserDTO();
+			while ($row = $result->fetch_assoc()) {
+				$u = $this->resultSetToObject($row);
+			}
+			return $u;
+		}
+	}
+
+	public function checkEmailExists ($email) {
+		$sql = "SELECT * FROM user WHERE email = '$email'";
 		$this->dbConn->escape_string($sql);
 		if(!$result = $this->dbConn->query($sql)){
 			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');

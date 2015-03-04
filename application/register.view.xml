@@ -1,10 +1,11 @@
 <mvc:View controllerName="application.register" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
    <Page title="Sign up to Short Shop" showNavButton="true" navButtonPress="onBackPress">
    		<content>
-   			<Input type="Text" placeholder="first name" value="{user>/firstName}"/>
-            <Input type="Text" placeholder="last name" value="{user>/lastName}"/>
-            <Input type="Text" placeholder="email" value="{user>/email}"/>
-            <Input type="Password" placeholder="password" value="{user>/password}"/>
+   			<Input type="Text" placeholder="first name" value="{registerUser>/firstName}"/>
+            <Input type="Text" placeholder="last name" value="{registerUser>/lastName}"/>
+            <Input type="Text" placeholder="email" value="{registerUser>/email}"/>
+            <Input type="Password" placeholder="password" value="{registerUser>/password}"/>
+            <Input type="Confirm Password" placeholder="password" value="{registerUser>/passwordAgain}"/>
             <Button text="Register" press="onRegisterPress" icon="" class="addView_Buttons" iconFirst="false"/>
    		</content>
    </Page>
