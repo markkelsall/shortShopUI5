@@ -3,6 +3,8 @@ sap.ui.controller("application.login", {
 	onInit : function () {
 		loginController = this;
 
+		loginController.checkAlreadyLoggedIn();
+
 		var loginModel = {
 			email : "mark.kelsall@gmail.com",
 			password : "pr0file1"
@@ -17,7 +19,7 @@ sap.ui.controller("application.login", {
 		
 		$.ajax({
 			url : "backend/services/user/loginUser.php",
-			type : "GET",
+			type : "POST",
 			async : true,
 			data : data,
 			success : function (data) {
@@ -37,7 +39,7 @@ sap.ui.controller("application.login", {
 					
 					ssApp.getNavigation().toPage("application.home");
 				} else {
-					//no user found
+					sap.m.MessageToast.show(data.message);
 				}
 			},
 			error : function (error) {
@@ -52,5 +54,23 @@ sap.ui.controller("application.login", {
 
 	onForgotPasswordPress : function () {
 
-	}
+	},
+
+	checkAlreadyLoggedIn : function () {
+  		$.ajax({
+			url : "backend/services/user/checkLoggedIn.php",
+			type : "POST",
+			async : true,
+			success : function (data) {
+				if (data !== undefined && data !== null) {
+					if (data.result === true) {
+						ssApp.getNavigation().toPage("application.home");
+					}
+				}
+			},
+			error : function (error) {
+				
+			}
+		});
+  	}
 });

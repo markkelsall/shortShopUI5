@@ -6,13 +6,13 @@ include '../../includes/DTO/ShoppingListItemDTO.php';
 header('Content-Type: application/json');
 
 //get shoppingListItem from post
-if(!isset($_GET['shoppingListItemId'])) {
+if(!isset($_POST['shoppingListItemId'])) {
 	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'No shopping list item ID supplied');
 	echo json_encode($response);
 	exit();
 }
 
-$shoppingListItemId = $_GET['shoppingListItemId'];
+$shoppingListItemId = $_POST['shoppingListItemId'];
 
 try {
 	$dbConn = new DbConn();

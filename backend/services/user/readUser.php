@@ -6,13 +6,13 @@ include '../../includes/DTO/UserDTO.php';
 header('Content-Type: application/json');
 
 //get userId from post
-if(!isset($_GET['userId'])) {
+if(!isset($_POST['userId'])) {
 	$response = array('user'=> null,'result'=>FALSE, 'message'=>'No user ID supplied');
 	echo json_encode($response);
 	exit();
 }
 
-$userId = $_GET['userId'];
+$userId = $_POST['userId'];
 
 try {
 	$dbConn = new DbConn();

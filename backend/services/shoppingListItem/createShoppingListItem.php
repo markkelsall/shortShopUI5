@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 session_start();
 
 //get object sent
-if(!isset($_GET['itemName']) || !isset($_GET['quantity'])) {
+if(!isset($_POST['itemName']) || !isset($_POST['quantity'])) {
 	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item name and quantity are required');
 	echo json_encode($response);
 	exit();
@@ -18,12 +18,12 @@ if(!isset($_GET['itemName']) || !isset($_GET['quantity'])) {
 $userId = $_SESSION['loggedInUserId'];
 $listHeaderId = $_SESSION['loggedInUserListHeaderId'];
 
-$itemName = $_GET['itemName'];
-$quantity = $_GET['quantity'];
+$itemName = $_POST['itemName'];
+$quantity = $_POST['quantity'];
 
 $additionalComments = "";
-if (isset($_GET['additionalComments'])) {
-	$additionalComments = $_GET['additionalComments'];
+if (isset($_POST['additionalComments'])) {
+	$additionalComments = $_POST['additionalComments'];
 }
 
 try {

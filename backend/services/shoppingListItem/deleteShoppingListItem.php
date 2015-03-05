@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 session_start();
 
 //get object sent
-if(!isset($_GET['id'])) {
+if(!isset($_POST['id'])) {
 	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item id is required');
 	echo json_encode($response);
 	exit();
@@ -18,7 +18,7 @@ if(!isset($_GET['id'])) {
 $userId = $_SESSION['loggedInUserId'];
 $listHeaderId = $_SESSION['loggedInUserListHeaderId'];
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 
 try {
 	$dbConn = new DbConn();

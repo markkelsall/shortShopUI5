@@ -5,7 +5,7 @@
             <Input type="Text" placeholder="last name" value="{registerUser>/lastName}"/>
             <Input type="Text" placeholder="email" value="{registerUser>/email}"/>
             <Input type="Password" placeholder="password" value="{registerUser>/password}"/>
-            <Input type="Confirm Password" placeholder="password" value="{registerUser>/passwordAgain}"/>
+            <Input type="Password" placeholder="password" value="{registerUser>/passwordAgain}"/>
             <Button text="Register" press="onRegisterPress" icon="" class="addView_Buttons" iconFirst="false"/>
    		</content>
    </Page>

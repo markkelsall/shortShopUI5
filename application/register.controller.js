@@ -7,8 +7,8 @@ sap.ui.controller("application.register", {
 			firstName : "Mark",
 			lastName : "Kelsall",
 			email : "mark.kelsall@gmail.com",
-			password : "pr0file1",
-			passwordAgain : "pr0file1"
+			password : "pr0file2",
+			passwordAgain : "pr0file2"
 		});
 		sap.ui.getCore().setModel(jModel, "registerUser");
 	},
@@ -24,7 +24,7 @@ sap.ui.controller("application.register", {
 
 		$.ajax({
 			url : "backend/services/user/createUser.php",
-			type : "GET",
+			type : "POST",
 			async : true,
 			data : data,
 			success : function (data) {
@@ -33,7 +33,7 @@ sap.ui.controller("application.register", {
 					var jModel = new sap.ui.model.json.JSONModel(data.user);
 					sap.ui.getCore().setModel(jModel, "user");
 
-					var jModel = new sap.ui.model.json.JSONModel({data : data.listItems});
+					var jModel = new sap.ui.model.json.JSONModel();
 					sap.ui.getCore().setModel(jModel, "listItems");
 
 					var jModel = new sap.ui.model.json.JSONModel(data.listHeader);
@@ -44,7 +44,7 @@ sap.ui.controller("application.register", {
 					
 					ssApp.getNavigation().toPage("application.home");
 				} else {
-					//no user found
+					sap.m.MessageToast.show(data.message);
 				}
 			},
 			error : function (error) {

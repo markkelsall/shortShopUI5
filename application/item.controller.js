@@ -22,7 +22,7 @@ sap.ui.controller("application.item", {
 			//update
 			$.ajax({
 				url : "backend/services/shoppingListItem/updateShoppingListItem.php",
-				type : "GET",
+				type : "POST",
 				async : true,
 				data : item,
 				success : function (data) {
@@ -58,7 +58,7 @@ sap.ui.controller("application.item", {
 			//create
 			$.ajax({
 				url : "backend/services/shoppingListItem/createShoppingListItem.php",
-				type : "GET",
+				type : "POST",
 				async : true,
 				data : item,
 				success : function (data) {

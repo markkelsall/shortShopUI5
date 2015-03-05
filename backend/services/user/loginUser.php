@@ -10,7 +10,7 @@ include '../../includes/DTO/ShoppingListItemDTO.php';
 header('Content-Type: application/json');
 
 //check email and password from post parameters
-if(!isset($_GET['email']) || !isset($_GET['password'])) {
+if(!isset($_POST['email']) || !isset($_POST['password'])) {
 	$response = array('user'=> null,'result'=>FALSE, 'message'=>'Email and password are both required.');
 	echo json_encode($response);
 	exit();
@@ -19,8 +19,8 @@ if(!isset($_GET['email']) || !isset($_GET['password'])) {
 session_start();
 
 //get email and password from post parameters
-$email = $_GET['email'];
-$password = $_GET['password'];
+$email = $_POST['email'];
+$password = $_POST['password'];
 
 try {
 	//start database connection
@@ -48,6 +48,7 @@ try {
 		$_SESSION['loggedInUserFirstName'] = $u->firstName;
 		$_SESSION['loggedInUserLastName'] = $u->lastName;
 		$_SESSION['loggedInUserEmail'] = $u->email;
+		$_SESSION['LAST_ACTIVITY'] = time();
 		
 		//get the list header for the user
 		$slhd = new ShoppingListHeaderDAO($con);
@@ -61,8 +62,9 @@ try {
 		
 		//close database connection
 		$dbConn->dbClose();
+
+		$_SESSION['LAST_ACTIVITY'] = time();
 		
-		//need to figure out how to json encode array
 		$response = array('user'=> $u, 'listHeader'=>$slh, 'result'=>TRUE, 'listItems'=>$slil);
 		echo json_encode($response);
 	}

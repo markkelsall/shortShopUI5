@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 session_start();
 
 //get object sent
-if(!isset($_GET['id']) || !isset($_GET['itemName']) || !isset($_GET['quantity'])) {
+if(!isset($_POST['id']) || !isset($_POST['itemName']) || !isset($_POST['quantity'])) {
 	$response = array('shoppingListItem'=> null,'result'=>FALSE, 'message'=>'The item id, name and quantity are required');
 	echo json_encode($response);
 	exit();
@@ -15,28 +15,28 @@ if(!isset($_GET['id']) || !isset($_GET['itemName']) || !isset($_GET['quantity'])
 
 $userId = $_SESSION['loggedInUserId'];
 
-$itemName = $_GET['itemName'];
-$quantity = $_GET['quantity'];
-$id = $_GET['id'];
+$itemName = $_POST['itemName'];
+$quantity = $_POST['quantity'];
+$id = $_POST['id'];
 
 $aisle = "";
-if (isset($_GET['aisle'])) {
-	$aisle = $_GET['aisle'];
+if (isset($_POST['aisle'])) {
+	$aisle = $_POST['aisle'];
 }
 
 $inStock = "";
-if (isset($_GET['inStock'])) {
-	$inStock = $_GET['inStock'];
+if (isset($_POST['inStock'])) {
+	$inStock = $_POST['inStock'];
 }
 
 $amount = "";
-if (isset($_GET['amount'])) {
-	$amount = $_GET['amount'];
+if (isset($_POST['amount'])) {
+	$amount = $_POST['amount'];
 }
 
 $additionalComments = "";
-if (isset($_GET['additionalComments'])) {
-	$additionalComments = $_GET['additionalComments'];
+if (isset($_POST['additionalComments'])) {
+	$additionalComments = $_POST['additionalComments'];
 }
 
 try {
