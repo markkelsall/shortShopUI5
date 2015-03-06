@@ -9,7 +9,7 @@
    					<Label text="{path:'listHeader>/itemCount', formatter:'Formatter.homeViewTitle'}"/>
    				</contentMiddle>
    				<contentRight>
-   					<Button icon="sap-icon://person-placeholder" press="onUserIconPress"/>
+   					<Button icon="sap-icon://menu2" press="onMenuIconPress"/>
    				</contentRight>
    			</Bar>
 

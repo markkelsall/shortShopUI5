@@ -4,6 +4,7 @@ include '../../includes/DAO/UserDAO.php';
 include '../../includes/DTO/UserDTO.php';
 include '../../includes/DAO/ShoppingListHeaderDAO.php';
 include '../../includes/DTO/ShoppingListHeaderDTO.php';
+include '../../includes/util/util.php';
 
 header('Content-Type: application/json');
 
@@ -24,11 +25,7 @@ $password = $_POST['passwordAgain'];
 
 try {
 
-	$options = [
-	    'cost' => 11,
-	];
-
-	$hash = password_hash($password, PASSWORD_BCRYPT, $options);
+	$hash = encrypt($password);
 	
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();

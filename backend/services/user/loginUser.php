@@ -1,11 +1,12 @@
 <?php
 include '../../includes/DAO/DbConn.php';
 include '../../includes/DAO/UserDAO.php';
-include '../../includes/DAO/ShoppingListHeaderDAO.php';
 include '../../includes/DTO/UserDTO.php';
+include '../../includes/DAO/ShoppingListHeaderDAO.php';
 include '../../includes/DTO/ShoppingListHeaderDTO.php';
 include '../../includes/DAO/ShoppingListItemDAO.php';
 include '../../includes/DTO/ShoppingListItemDTO.php';
+include '../../includes/util/util.php';
 
 header('Content-Type: application/json');
 
@@ -27,11 +28,7 @@ try {
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();
 
-	$options = [
-	    'cost' => 11,
-	];
-	
-	$hash = password_hash($password, PASSWORD_BCRYPT, $options);
+	$hash = encrypt($password);
 	
 	//query against user table
 	$user = new UserDAO($con);

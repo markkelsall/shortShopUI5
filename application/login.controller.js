@@ -2,15 +2,11 @@ sap.ui.controller("application.login", {
 	
 	onInit : function () {
 		loginController = this;
+		
+		var jModel = new sap.ui.model.json.JSONModel({data : sap.ui.Device});
+		sap.ui.getCore().setModel(jModel, "device");
 
-		loginController.checkAlreadyLoggedIn();
-
-		var loginModel = {
-			email : "mark.kelsall@gmail.com",
-			password : "pr0file1"
-		};
-
-		var jModel = sap.ui.model.json.JSONModel(loginModel);
+		var jModel = new sap.ui.model.json.JSONModel({});
 		sap.ui.getCore().setModel(jModel, "loginModel");
 	},
 
@@ -33,9 +29,6 @@ sap.ui.controller("application.login", {
 
 					var jModel = new sap.ui.model.json.JSONModel(data.listHeader);
 					sap.ui.getCore().setModel(jModel, "listHeader");
-
-					var jModel = new sap.ui.model.json.JSONModel({data : sap.ui.Device});
-					sap.ui.getCore().setModel(jModel, "device");
 					
 					ssApp.getNavigation().toPage("application.home");
 				} else {
@@ -54,23 +47,5 @@ sap.ui.controller("application.login", {
 
 	onForgotPasswordPress : function () {
 
-	},
-
-	checkAlreadyLoggedIn : function () {
-  		$.ajax({
-			url : "backend/services/user/checkLoggedIn.php",
-			type : "POST",
-			async : true,
-			success : function (data) {
-				if (data !== undefined && data !== null) {
-					if (data.result === true) {
-						ssApp.getNavigation().toPage("application.home");
-					}
-				}
-			},
-			error : function (error) {
-				
-			}
-		});
-  	}
+	}
 });

@@ -98,5 +98,33 @@ sap.ui.controller("application.home", {
   		this.deleteItemFragment.close();
   	},
 
-  	
+  	onLogoutPress : function () {
+  		$.ajax({
+			url : "backend/services/user/logoutUser.php",
+			type : "POST",
+			async : true,
+			success : function (data) {
+
+				sap.ui.getCore().setModel(new sap.ui.model.json.JSONModel({},"listItems"));
+				sap.ui.getCore().setModel(new sap.ui.model.json.JSONModel({},"listHeader"));
+
+				ssApp.getNavigation().toPage("application.login");
+				sap.m.MessageToast.show(data.message);
+			},
+			error : function (error) {
+				ssApp.getNavigation().toPage("application.login");
+				sap.m.MessageToast.show(data.message);
+			}
+		});
+  	},
+
+  	onMenuIconPress : function (oEvent) {
+  		if (!this.menuFragment) {
+			var menuFragment = new sap.ui.xmlfragment("application.fragments.homeMenu", homeController);
+			this.getView().addDependent(menuFragment);
+			this.menuFragment = menuFragment;
+		}
+
+		this.menuFragment.openBy(oEvent.getSource());
+  	}
 });

@@ -3,13 +3,7 @@ sap.ui.controller("application.register", {
 	onInit : function () {
 		registerController = this;
 
-		var jModel = new sap.ui.model.json.JSONModel({
-			firstName : "Mark",
-			lastName : "Kelsall",
-			email : "mark.kelsall@gmail.com",
-			password : "pr0file2",
-			passwordAgain : "pr0file2"
-		});
+		var jModel = new sap.ui.model.json.JSONModel({});
 		sap.ui.getCore().setModel(jModel, "registerUser");
 	},
 
@@ -18,7 +12,6 @@ sap.ui.controller("application.register", {
 	},
 
 	onRegisterPress : function () {
-		console.log("Entering onRegisterPress");
 
 		var data = sap.ui.getCore().getModel("registerUser").getData();
 
@@ -51,8 +44,6 @@ sap.ui.controller("application.register", {
 				console.log(error);
 			}
 		});
-		
-		console.log("Exiting onRegisterPress");
 	},
 
 	onForgotPasswordPress : function () {
