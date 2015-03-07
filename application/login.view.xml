@@ -5,7 +5,7 @@
    			<Input type="Password" placeholder="Password" value="{loginModel>/password}"/>
    			<VBox>
    				<Button text="Login" press="onLoginPress" icon="sap-icon://play" iconFirst="false" class="loginView_Buttons"/>
-   				<Button text="Sign up" press="onRegisterPress" icon="sap-icon://account" iconFirst="false" class="loginView_Buttons"/>
+   				<Button text="Sign up" press="onRegisterPress" icon="sap-icon://account" iconFirst="false" class="loginView_Buttons passwordField"/>
    				<Link text="Forgot your password?" press="onForgotPasswordPress" class="loginView_ForgotPassword"/>
    			</VBox>
    		</content>

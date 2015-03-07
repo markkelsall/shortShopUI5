@@ -4,6 +4,7 @@ var bootstrap = {
 		
 		jsFiles : [
 			 	"js.Formatter",
+			 	"js.utils.AjaxModel",
 			 	"js.utils.DateFormatter",
 			 	"js.utils.Logger",
 			 	"js.utils.Util",
