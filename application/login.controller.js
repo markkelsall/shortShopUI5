@@ -2,9 +2,6 @@ sap.ui.controller("application.login", {
 	
 	onInit : function () {
 		loginController = this;
-		
-		var jModel = new sap.ui.model.json.JSONModel({data : sap.ui.Device});
-		sap.ui.getCore().setModel(jModel, "device");
 
 		var jModel = new sap.ui.model.json.JSONModel({});
 		sap.ui.getCore().setModel(jModel, "loginModel");

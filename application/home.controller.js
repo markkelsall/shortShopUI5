@@ -47,7 +47,7 @@ sap.ui.controller("application.home", {
   	onDeleteConfirmPress : function (oEvent) {
   		var data = sap.ui.getCore().getModel("deleteItem").getData();
   		
-  		AjaxModel.post("backend/services/shoppingListItem/deleteShoppingListItem.php", data, loginController.onLoginCallback);
+  		AjaxModel.post("backend/services/shoppingListItem/deleteShoppingListItem.php", data, homeController.onDeleteItemCallback);
   	},
 
   	onDeleteCancelPress : function (oEvent) {
@@ -55,23 +55,19 @@ sap.ui.controller("application.home", {
   	},
 
   	onLogoutPress : function () {
-  		$.ajax({
-			url : "backend/services/user/logoutUser.php",
-			type : "POST",
-			async : true,
-			success : function (data) {
+  		AjaxModel.post("backend/services/user/logoutUser.php", null, homeController.onLogoutPressCallback);
+  	},
 
-				sap.ui.getCore().setModel(new sap.ui.model.json.JSONModel({},"listItems"));
-				sap.ui.getCore().setModel(new sap.ui.model.json.JSONModel({},"listHeader"));
+  	onLogoutPressCallback : function (data) {
+  		if (data !== undefined && data !== null) {
+			sap.ui.getCore().setModel(new sap.ui.model.json.JSONModel({},"listItems"));
+			sap.ui.getCore().setModel(new sap.ui.model.json.JSONModel({},"listHeader"));
 
-				ssApp.getNavigation().toPage("application.login");
-				sap.m.MessageToast.show(data.message);
-			},
-			error : function (error) {
-				ssApp.getNavigation().toPage("application.login");
-				sap.m.MessageToast.show(data.message);
-			}
-		});
+			ssApp.getNavigation().toPage("application.login");
+			sap.m.MessageToast.show(data.message);
+  		} else {
+			ssApp.getNavigation().toPage("application.login");
+  		}
   	},
 
   	onMenuIconPress : function (oEvent) {
@@ -84,7 +80,9 @@ sap.ui.controller("application.home", {
 		this.menuFragment.openBy(oEvent.getSource());
   	},
 
-  	onDeleteItemCallback : function () {
+  	onDeleteItemCallback : function (data) {
+  		var item = sap.ui.getCore().getModel("deleteItem").getData();
+
   		if (data !== undefined && data !== null) {
 			if (data.result === true) {
 				//success
@@ -118,8 +116,5 @@ sap.ui.controller("application.home", {
 			homeController.deleteItemFragment.close();
 			sap.m.MessageToast.show("Sorry, we couldn't delete the item. Please try again.");
 		}
-  	} else {
-  		homeController.deleteItemFragment.close();
-		sap.m.MessageToast.show("Sorry, we couldn't delete the item. Please try again.");
   	}
 });
