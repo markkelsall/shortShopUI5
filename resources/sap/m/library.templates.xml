@@ -2757,10 +2757,10 @@
 	enabled: true, // boolean
 	textDirection: sap.ui.core.TextDirection.Inherit, // sap.ui.core.TextDirection
 	key: undefined, // string
-	columnKey: undefined, // string
-	index: undefined, // int
-	visible: undefined, // boolean
-	width: undefined, // string
+	columnKey: undefined, // string, since 1.26.0
+	index: undefined, // int, since 1.26.0
+	visible: undefined, // boolean, since 1.26.0
+	width: undefined, // string, since 1.26.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [] // sap.ui.core.Control, since 1.19
@@ -2785,17 +2785,27 @@
 	busy: false, // boolean
 	busyIndicatorDelay: 1000, // int
 	visible: true, // boolean
-	title: undefined, // string
-	type: undefined, // sap.m.P13nPanelType
-	verticalScrolling: true, // boolean
+	title: undefined, // string, since 1.26.0
+	type: undefined, // sap.m.P13nPanelType, since 1.26.0
+	verticalScrolling: true, // boolean, since 1.26.0
+	visibleItemsThreshold: -1, // int, since 1.26.7
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
-	items: [], // sap.m.P13nItem
-	columnsItems: [], // sap.m.P13nColumnsItem
+	items: [], // sap.m.P13nItem, since 1.26.0
+	columnsItems: [], // sap.m.P13nColumnsItem, since 1.26.0
+	beforeNavigationTo: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this], // since 1.28.0
 	addColumnsItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this]
+	}, this], // since 1.26.0
+	changeColumnsItems: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this], // since 1.26.7
+	setData: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this] // since 1.26.7
 })
 ]]></jsTemplate>
 	<xmlTemplate><![CDATA[<P13nColumnsPanel xmlns="sap.m"
@@ -2805,11 +2815,15 @@
 	title=""
 	type=""
 	verticalScrolling="true"
-	addColumnsItem="">
+	visibleItemsThreshold="-1"
+	beforeNavigationTo=""
+	addColumnsItem=""
+	changeColumnsItems=""
+	setData="">
 		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
 		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
-		<items></items> <!-- sap.m.P13nItem -->
-		<columnsItems></columnsItems> <!-- sap.m.P13nColumnsItem -->
+		<items></items> <!-- sap.m.P13nItem, since 1.26.0 -->
+		<columnsItems></columnsItems> <!-- sap.m.P13nColumnsItem, since 1.26.0 -->
 </P13nColumnsPanel>
 ]]></xmlTemplate>
 </Template>
@@ -2874,8 +2888,8 @@
 	contentHeight: undefined, // sap.ui.core.CSSSize, since 1.12.1
 	horizontalScrolling: true, // boolean, since 1.15.1
 	verticalScrolling: true, // boolean, since 1.15.1
-	initialVisiblePanelType: undefined, // sap.m.P13nPanelType
-	showReset: false, // boolean
+	initialVisiblePanelType: undefined, // sap.m.P13nPanelType, since 1.26.0
+	showReset: false, // boolean, since 1.26.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
@@ -2885,7 +2899,7 @@
 	beginButton: undefined, // sap.m.Button, since 1.15.1
 	endButton: undefined, // sap.m.Button, since 1.15.1
 	buttons: [], // sap.m.Button, since 1.21.1
-	panels: [], // sap.m.P13nPanel
+	panels: [], // sap.m.P13nPanel, since 1.26.0
 	leftButton: undefined, // sap.m.Button
 	rightButton: undefined, // sap.m.Button
 	initialFocus: undefined, // sap.ui.core.Control, since 1.15.0
@@ -2903,13 +2917,13 @@
 	}, this],
 	ok: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26.0
 	cancel: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26.0
 	reset: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this]
+	}, this] // since 1.26.0
 })
 ]]></jsTemplate>
 	<xmlTemplate><![CDATA[<P13nDialog xmlns="sap.m"
@@ -2947,7 +2961,7 @@
 		<beginButton></beginButton> <!-- sap.m.Button, since 1.15.1 -->
 		<endButton></endButton> <!-- sap.m.Button, since 1.15.1 -->
 		<buttons></buttons> <!-- sap.m.Button, since 1.21.1 -->
-		<panels></panels> <!-- sap.m.P13nPanel -->
+		<panels></panels> <!-- sap.m.P13nPanel, since 1.26.0 -->
 </P13nDialog>
 ]]></xmlTemplate>
 </Template>
@@ -2957,11 +2971,11 @@
 	enabled: true, // boolean
 	textDirection: sap.ui.core.TextDirection.Inherit, // sap.ui.core.TextDirection
 	key: undefined, // string
-	operation: undefined, // string
-	value1: undefined, // string
-	value2: undefined, // string
-	columnKey: undefined, // string
-	exclude: false, // boolean
+	operation: undefined, // string, since 1.26.0
+	value1: undefined, // string, since 1.26.0
+	value2: undefined, // string, since 1.26.0
+	columnKey: undefined, // string, since 1.26.0
+	exclude: false, // boolean, since 1.26.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [] // sap.ui.core.Control, since 1.19
@@ -2987,27 +3001,30 @@
 	busy: false, // boolean
 	busyIndicatorDelay: 1000, // int
 	visible: true, // boolean
-	title: undefined, // string
-	type: undefined, // sap.m.P13nPanelType
-	verticalScrolling: true, // boolean
-	maxIncludes: "-1", // string
-	maxExcludes: "-1", // string
-	containerQuery: false, // boolean
-	layoutMode: undefined, // string
+	title: undefined, // string, since 1.26.0
+	type: undefined, // sap.m.P13nPanelType, since 1.26.0
+	verticalScrolling: true, // boolean, since 1.26.0
+	maxIncludes: "-1", // string, since 1.26
+	maxExcludes: "-1", // string, since 1.26
+	containerQuery: false, // boolean, since 1.26
+	layoutMode: undefined, // string, since 1.26
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
-	items: [], // sap.m.P13nItem
-	filterItems: [], // sap.m.P13nFilterItem
+	items: [], // sap.m.P13nItem, since 1.26.0
+	filterItems: [], // sap.m.P13nFilterItem, since 1.26
+	beforeNavigationTo: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this], // since 1.28.0
 	addFilterItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26
 	removeFilterItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26
 	updateFilterItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this]
+	}, this] // since 1.26
 })
 ]]></jsTemplate>
 	<xmlTemplate><![CDATA[<P13nFilterPanel xmlns="sap.m"
@@ -3021,13 +3038,14 @@
 	maxExcludes="-1"
 	containerQuery="false"
 	layoutMode=""
+	beforeNavigationTo=""
 	addFilterItem=""
 	removeFilterItem=""
 	updateFilterItem="">
 		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
 		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
-		<items></items> <!-- sap.m.P13nItem -->
-		<filterItems></filterItems> <!-- sap.m.P13nFilterItem -->
+		<items></items> <!-- sap.m.P13nItem, since 1.26.0 -->
+		<filterItems></filterItems> <!-- sap.m.P13nFilterItem, since 1.26 -->
 </P13nFilterPanel>
 ]]></xmlTemplate>
 </Template>
@@ -3037,9 +3055,9 @@
 	enabled: true, // boolean
 	textDirection: sap.ui.core.TextDirection.Inherit, // sap.ui.core.TextDirection
 	key: undefined, // string
-	operation: undefined, // string
-	columnKey: undefined, // string
-	showIfGrouped: false, // boolean
+	operation: undefined, // string, since 1.28.0
+	columnKey: undefined, // string, since 1.28.0
+	showIfGrouped: false, // boolean, since 1.28.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [] // sap.ui.core.Control, since 1.19
@@ -3063,26 +3081,29 @@
 	busy: false, // boolean
 	busyIndicatorDelay: 1000, // int
 	visible: true, // boolean
-	title: undefined, // string
-	type: undefined, // sap.m.P13nPanelType
-	verticalScrolling: true, // boolean
-	maxGroups: "-1", // string
-	containerQuery: false, // boolean
-	layoutMode: undefined, // string
+	title: undefined, // string, since 1.26.0
+	type: undefined, // sap.m.P13nPanelType, since 1.26.0
+	verticalScrolling: true, // boolean, since 1.26.0
+	maxGroups: "-1", // string, since 1.26
+	containerQuery: false, // boolean, since 1.26
+	layoutMode: undefined, // string, since 1.26
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
-	items: [], // sap.m.P13nItem
-	groupItems: [], // sap.m.P13nGroupItem
+	items: [], // sap.m.P13nItem, since 1.26.0
+	groupItems: [], // sap.m.P13nGroupItem, since 1.26
+	beforeNavigationTo: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this], // since 1.28.0
 	addGroupItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26
 	removeGroupItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26
 	updateGroupItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this]
+	}, this] // since 1.26
 })
 ]]></jsTemplate>
 	<xmlTemplate><![CDATA[<P13nGroupPanel xmlns="sap.m"
@@ -3095,25 +3116,28 @@
 	maxGroups="-1"
 	containerQuery="false"
 	layoutMode=""
+	beforeNavigationTo=""
 	addGroupItem=""
 	removeGroupItem=""
 	updateGroupItem="">
 		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
 		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
-		<items></items> <!-- sap.m.P13nItem -->
-		<groupItems></groupItems> <!-- sap.m.P13nGroupItem -->
+		<items></items> <!-- sap.m.P13nItem, since 1.26.0 -->
+		<groupItems></groupItems> <!-- sap.m.P13nGroupItem, since 1.26 -->
 </P13nGroupPanel>
 ]]></xmlTemplate>
 </Template>
 <Template name="sap.m.P13nItem" alias="P13nItem,Item">
 	<jsTemplate><![CDATA[new sap.m.P13nItem({
-	columnKey: undefined, // string
-	text: "", // string
-	visible: undefined, // boolean
-	type: "text", // string
-	maxLength: undefined, // string
-	width: undefined, // string
-	isDefault: false, // boolean
+	columnKey: undefined, // string, since 1.26.0
+	text: "", // string, since 1.26.0
+	visible: undefined, // boolean, since 1.26.0
+	type: "text", // string, since 1.26.0
+	precision: undefined, // string, since 1.26.0
+	scale: undefined, // string, since 1.26.0
+	maxLength: undefined, // string, since 1.26.0
+	width: undefined, // string, since 1.26.0
+	isDefault: false, // boolean, since 1.26.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [] // sap.ui.core.Control, since 1.19
@@ -3124,6 +3148,8 @@
 	text=""
 	visible=""
 	type="text"
+	precision=""
+	scale=""
 	maxLength=""
 	width=""
 	isDefault="false">
@@ -3137,13 +3163,16 @@
 	busy: false, // boolean
 	busyIndicatorDelay: 1000, // int
 	visible: true, // boolean
-	title: undefined, // string
-	type: undefined, // sap.m.P13nPanelType
-	verticalScrolling: true, // boolean
+	title: undefined, // string, since 1.26.0
+	type: undefined, // sap.m.P13nPanelType, since 1.26.0
+	verticalScrolling: true, // boolean, since 1.26.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
-	items: [] // sap.m.P13nItem
+	items: [], // sap.m.P13nItem, since 1.26.0
+	beforeNavigationTo: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this] // since 1.28.0
 })
 ]]></jsTemplate>
 	<xmlTemplate><![CDATA[<P13nPanel xmlns="sap.m"
@@ -3152,10 +3181,11 @@
 	visible="true"
 	title=""
 	type=""
-	verticalScrolling="true">
+	verticalScrolling="true"
+	beforeNavigationTo="">
 		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
 		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
-		<items></items> <!-- sap.m.P13nItem -->
+		<items></items> <!-- sap.m.P13nItem, since 1.26.0 -->
 </P13nPanel>
 ]]></xmlTemplate>
 </Template>
@@ -3165,8 +3195,8 @@
 	enabled: true, // boolean
 	textDirection: sap.ui.core.TextDirection.Inherit, // sap.ui.core.TextDirection
 	key: undefined, // string
-	operation: undefined, // string
-	columnKey: undefined, // string
+	operation: undefined, // string, since 1.26.0
+	columnKey: undefined, // string, since 1.26.0
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [] // sap.ui.core.Control, since 1.19
@@ -3189,25 +3219,28 @@
 	busy: false, // boolean
 	busyIndicatorDelay: 1000, // int
 	visible: true, // boolean
-	title: undefined, // string
-	type: undefined, // sap.m.P13nPanelType
-	verticalScrolling: true, // boolean
-	containerQuery: false, // boolean
-	layoutMode: undefined, // string
+	title: undefined, // string, since 1.26.0
+	type: undefined, // sap.m.P13nPanelType, since 1.26.0
+	verticalScrolling: true, // boolean, since 1.26.0
+	containerQuery: false, // boolean, since 1.26
+	layoutMode: undefined, // string, since 1.26
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
-	items: [], // sap.m.P13nItem
-	sortItems: [], // sap.m.P13nSortItem
+	items: [], // sap.m.P13nItem, since 1.26.0
+	sortItems: [], // sap.m.P13nSortItem, since 1.26
+	beforeNavigationTo: [function (oEvent) {
+		var ${control} = oEvent.getSource();
+	}, this], // since 1.28.0
 	addSortItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26
 	removeSortItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this],
+	}, this], // since 1.26
 	updateSortItem: [function (oEvent) {
 		var ${control} = oEvent.getSource();
-	}, this]
+	}, this] // since 1.26
 })
 ]]></jsTemplate>
 	<xmlTemplate><![CDATA[<P13nSortPanel xmlns="sap.m"
@@ -3219,13 +3252,14 @@
 	verticalScrolling="true"
 	containerQuery="false"
 	layoutMode=""
+	beforeNavigationTo=""
 	addSortItem=""
 	removeSortItem=""
 	updateSortItem="">
 		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
 		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
-		<items></items> <!-- sap.m.P13nItem -->
-		<sortItems></sortItems> <!-- sap.m.P13nSortItem -->
+		<items></items> <!-- sap.m.P13nItem, since 1.26.0 -->
+		<sortItems></sortItems> <!-- sap.m.P13nSortItem, since 1.26 -->
 </P13nSortPanel>
 ]]></xmlTemplate>
 </Template>

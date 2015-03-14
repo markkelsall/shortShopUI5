@@ -23,7 +23,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	 * @implements sap.ui.core.PopupInterface
 	 *
 	 * @author SAP SE
-	 * @version 1.26.6
+	 * @version 1.26.8
 	 *
 	 * @constructor
 	 * @public
@@ -284,8 +284,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	
 			// When runs on mobile device, Popover always follows the open by control.
 			// When runs on the other platforms, Popover is repositioned if the position change of openBy is smaller than the tolerance, otherwise popover is closed.
-			if (!sap.ui.Device.system.desktop || (Math.abs(oLastRect.top - oRect.top) <= this._followOfTolerance && Math.abs(oLastRect.left - oRect.left) <= this._followOfTolerance)) {
-				this.oPopup._applyPosition(this.oPopup._oLastPosition);
+			if (!sap.ui.Device.system.desktop
+				|| (Math.abs(oLastRect.top - oRect.top) <= this._followOfTolerance && Math.abs(oLastRect.left - oRect.left) <= this._followOfTolerance)
+				|| (Math.abs(oLastRect.top + oLastRect.height - oRect.top - oRect.height) <= this._followOfTolerance && Math.abs(oLastRect.left + oLastRect.width - oRect.left - oRect.width) <= this._followOfTolerance)) {
+					this.oPopup._applyPosition(this.oPopup._oLastPosition);
 			} else {
 				this.close();
 			}
@@ -374,12 +376,16 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		// popup's close method has been inherited here in order to fire the beforeClose event for calling close on
 		// autoclose.
 		this.oPopup.close = function(bBeforeCloseFired){
-			if (!bBeforeCloseFired) {
+			var bBooleanParam = typeof bBeforeCloseFired === "boolean";
+
+			// Only when the given parameter is "true", the beforeClose event isn't fired here.
+			// Because it's already fired in the sap.m.Popover.prototype.close function.
+			if (bBeforeCloseFired !== true) {
 				that.fireBeforeClose({openBy: that._oOpenBy});
 			}
-	
+
 			that._deregisterContentResizeHandler();
-			Popup.prototype.close.apply(this, Array.prototype.slice.call(arguments, 1));
+			Popup.prototype.close.apply(this, bBooleanParam ? [] : arguments);
 			that.removeDelegate(that._oRestoreFocusDelegate);
 		};
 	};
@@ -703,6 +709,7 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			$content = this.$("cont"),
 			$scrollArea = $content.children(".sapMPopoverScroll"),
 			oContentStyle = $content[0].style,
+			oScrollAreaStyle = $scrollArea[0].style,
 			bSAreaPosAbs = $scrollArea.css("position") === "absolute",
 			sContentWidth = this.getContentWidth(),
 			sContentHeight = this.getContentHeight(),
@@ -732,7 +739,8 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		oStyle.width = "";
 		oStyle.height = "";
 	
-		$scrollArea[0].style.width = "";
+		oScrollAreaStyle.width = "";
+		oScrollAreaStyle.display = "";
 		
 		// clear arrow styles
 		$arrow.removeClass("sapMPopoverArrRight sapMPopoverArrLeft sapMPopoverArrDown sapMPopoverArrUp sapMPopoverCrossArr sapMPopoverFooterAlignArr sapMPopoverHeaderAlignArr");
@@ -1171,11 +1179,11 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 	
 		var $parent = jQuery(this._getOpenByDomRef()),
 			$this = this.$(),
-			iPopoverBorderLeft = window.parseInt($this.css("border-left-width"), 10),
-			iPopoverBorderRight = window.parseInt($this.css("border-right-width"), 10),
-			iPopoverBorderTop = window.parseInt($this.css("border-top-width"), 10),
-			iPosTop = window.parseInt($this.css("top"), 10),
-			iPosLeft = window.parseInt($this.css("left"), 10),
+			oComputedStyle = window.getComputedStyle($this[0]),
+			fPopoverBorderLeft = window.parseFloat(oComputedStyle.borderLeftWidth, 10),
+			fPopoverBorderRight = window.parseFloat(oComputedStyle.borderRightWidth, 10),
+			fPopoverBorderTop = window.parseFloat(oComputedStyle.borderTopWidth, 10),
+			fPopoverBorderBottom = window.parseFloat(oComputedStyle.borderBottomWidth, 10),
 			sPlacement = this._oCalcedPos || this.getPlacement(),
 			$arrow = this.$("arrow"),
 			iArrowHeight = $arrow.outerHeight(true),
@@ -1187,12 +1195,15 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			$content = this.$("cont"),
 			$scrollArea = $content.children(".sapMPopoverScroll"),
 			bSAreaPosAbs = $scrollArea.css("position") === "absolute",
-			iContentMarginLeft = window.parseInt($content.css("margin-left"), 10),
-			iContentMarginRight = window.parseInt($content.css("margin-right"), 10),
+			oContentComputedStyle = window.getComputedStyle($content[0]),
+			fContentMarginLeft = window.parseFloat(oContentComputedStyle.marginLeft, 10),
+			fContentMarginRight = window.parseFloat(oContentComputedStyle.marginRight, 10),
+			fContentMarginTop = window.parseFloat(oContentComputedStyle.marginTop, 10),
+			fContentMarginBottom = window.parseFloat(oContentComputedStyle.marginBottom, 10),
 			$header = $this.children(".sapMPopoverHeader"),
 			$subHeader = $this.children(".sapMPopoverSubHeader"),
 			$footer = $this.children(".sapMPopoverFooter"),
-			iMaxContentHeight, iMaxWidth, oArrowPos, oFooterPos, oCSS = {},
+			iMaxContentHeight, iMaxContentWidth, oArrowPos, oFooterPos, oCSS = {},
 			iPosArrow, iHeaderHeight = 0, iSubHeaderHeight = 0, iFooterHeight = 0;
 		
 		if ($header.length > 0) {
@@ -1262,18 +1273,17 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			if (bOverLeft) {
 				iLeft = iMarginLeft;
 				if (bRtl) {
-					// as offset has been updated, the right position applied before also needs to be adjusted
-					iRight = parseInt($this.css("right"), 10) - (iLeft - $offset.left);
-					if (iRight < iMarginRight) {
-						iRight = iMarginRight;
-					}
+					// when only one side of the popover goes beyond the defined border make sure that
+					// only one from the iLeft and iRight is set because Popover has a fixed size and
+					// can't react to content size change when both are set
+					iRight = "";
 				}
 			} else if (bOverRight) {
 				iRight = iMarginRight;
-				//also move the left position of popover when there's enough space left.
-				if (iPosLeft - iMarginRight + iPosToRightBorder > iMarginLeft) {
-					iLeft = iPosLeft - iMarginRight + iPosToRightBorder;
-				}
+				// when only one side of the popover goes beyond the defined border make sure that
+				// only one from the iLeft and iRight is set because Popover has a fixed size and
+				// can't react to content size change when both are set
+				iLeft = "";
 			}
 		}
 		
@@ -1285,10 +1295,10 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 				iTop = iMarginTop;
 			} else if (bOverBottom) {
 				iBottom = iMarginBottom;
-				//also move the top position of popover when there's enough space left.
-				if (iPosTop - iMarginBottom + iPosToBottomBorder > iMarginTop) {
-					iTop = iPosTop - iMarginBottom + iPosToBottomBorder;
-				}
+				// when only one side of the popover goes beyond the defined border make sure that
+				// only one from the iLeft and iRight is set because Popover has a fixed size and
+				// can't react to content size change when both are set
+				iTop = "";
 			}
 		}
 		
@@ -1296,32 +1306,25 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 			top: iTop,
 			bottom: iBottom - iWindowTop,
 			left: iLeft,
-			right: iRight - iWindowLeft
+			right: typeof iRight === "number" ? iRight - iWindowLeft : iRight
 		});
 		
 		//update size of the popover for arrow position calculation
 		iWidth = oPopoverClass.outerWidth( $this[0]);
 		iHeight = $this.outerHeight();
-		
-		//adapt the width to screen
-		if (sPlacement === (bRtl ? sap.m.PlacementType.Right : sap.m.PlacementType.Left)) {
-			iMaxWidth = $this.offset().left + iWidth - this._marginLeft;
-		} else {
-			iMaxWidth = iDocumentWidth - $this.offset().left - this._marginRight;
-		}
-		
-		iMaxWidth -= (iPopoverBorderLeft + iPopoverBorderRight);
+
+		iMaxContentWidth = iDocumentWidth - iMarginLeft - iMarginRight - fPopoverBorderLeft - fPopoverBorderRight;
 		
 		if (bSAreaPosAbs) {
-			iMaxWidth -= (iContentMarginLeft + iContentMarginRight);
+			iMaxContentWidth -= (fContentMarginLeft + fContentMarginRight);
 		}
 		
 		//adapt the height to screen
-		iMaxContentHeight = $this.height() - iHeaderHeight - iSubHeaderHeight - iFooterHeight - parseInt($content.css("margin-top"), 10) - parseInt($content.css("margin-bottom"), 10);
+		iMaxContentHeight = iDocumentHeight - iMarginTop - iMarginBottom - iHeaderHeight - iSubHeaderHeight - iFooterHeight - fContentMarginTop - fContentMarginBottom - fPopoverBorderTop - fPopoverBorderBottom;
 		//make sure iMaxContentHeight is NEVER less than 0
 		iMaxContentHeight = Math.max(iMaxContentHeight, 0);
 	
-		oCSS["max-width"] = iMaxWidth + "px";
+		oCSS["max-width"] = iMaxContentWidth + "px";
 		// When Popover can fit into the current screen size, don't set the height on the content div.
 		// This can fix the flashing scroll bar problem when content size gets bigger after it's opened.
 		// When position: absolute is used on the scroller div, the height has to be kept otherwise content div has 0 height.
@@ -1333,25 +1336,25 @@ sap.ui.define(['jquery.sap.global', './Bar', './Button', './InstanceManager', '.
 		}
 		$content.css(oCSS);
 	
-		//disable the horizontal scrolling when content inside can fit the container.
-		if (oPopoverClass.outerWidth($scrollArea[0] ,true) <= oPopoverClass.width($content[0])) {
+		// disable the horizontal scrolling when content inside can fit the container.
+		if ($scrollArea.outerWidth(true) <= $content.width()) {
 			$scrollArea.css("display", "block");
 		}
 		
 		//set arrow offset
 		if (sPlacement === sap.m.PlacementType.Left || sPlacement === sap.m.PlacementType.Right) {
-			iPosArrow = $parent.offset().top - $this.offset().top - iPopoverBorderTop + iOffsetY + 0.5 * ($parent.outerHeight(false) - $arrow.outerHeight(false));
+			iPosArrow = $parent.offset().top - $this.offset().top - fPopoverBorderTop + iOffsetY + 0.5 * ($parent.outerHeight(false) - $arrow.outerHeight(false));
 			iPosArrow = Math.max(iPosArrow, this._arrowOffsetThreshold);
 			iPosArrow = Math.min(iPosArrow, iHeight - this._arrowOffsetThreshold - $arrow.outerHeight());
 			$arrow.css("top", iPosArrow);
 		} else if (sPlacement === sap.m.PlacementType.Top || sPlacement === sap.m.PlacementType.Bottom) {
 			if (bRtl) {
-				iPosArrow =  $this.offset().left + oPopoverClass.outerWidth($this[0], false) - ($parent.offset().left + oPopoverClass.outerWidth($parent[0], false)) + iPopoverBorderRight + iOffsetX + 0.5 * (oPopoverClass.outerWidth($parent[0], false) - oPopoverClass.outerWidth($arrow[0], false));
+				iPosArrow =  $this.offset().left + oPopoverClass.outerWidth($this[0], false) - ($parent.offset().left + oPopoverClass.outerWidth($parent[0], false)) + fPopoverBorderRight + iOffsetX + 0.5 * (oPopoverClass.outerWidth($parent[0], false) - oPopoverClass.outerWidth($arrow[0], false));
 				iPosArrow = Math.max(iPosArrow, this._arrowOffsetThreshold);
 				iPosArrow = Math.min(iPosArrow, iWidth - this._arrowOffsetThreshold - oPopoverClass.outerWidth($arrow[0], false));
 				$arrow.css("right", iPosArrow);
 			} else {
-				iPosArrow = $parent.offset().left - $this.offset().left - iPopoverBorderLeft + iOffsetX + 0.5 * (oPopoverClass.outerWidth($parent[0], false) - oPopoverClass.outerWidth($arrow[0], false));
+				iPosArrow = $parent.offset().left - $this.offset().left - fPopoverBorderLeft + iOffsetX + 0.5 * (oPopoverClass.outerWidth($parent[0], false) - oPopoverClass.outerWidth($arrow[0], false));
 				iPosArrow = Math.max(iPosArrow, this._arrowOffsetThreshold);
 				iPosArrow = Math.min(iPosArrow, iWidth - this._arrowOffsetThreshold - oPopoverClass.outerWidth($arrow[0], false));
 				$arrow.css("left", iPosArrow);
