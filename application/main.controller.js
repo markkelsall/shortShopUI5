@@ -13,12 +13,6 @@ sap.ui.controller("application.main", {
 		this.getView().setDisplayBlock(true);
 	},
 
-	onLoginPress : function () {
-		console.log("Entering onLoginPress");
-
-		console.log("Exiting onLoginPress");
-	},
-
 	onRegisterPress : function () {
 		console.log("Entering onRegisterPress");
 		

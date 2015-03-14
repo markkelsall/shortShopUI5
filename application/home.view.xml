@@ -14,7 +14,7 @@
    			</Bar>
 
             <List id="listItems" items="{path: 'listItems>/data'}" delete="handleDeleteGesture" mode="{path:'device>/data', formatter:'Formatter.listMode'}" noDataText="Add an item to get started">
-               <ObjectListItem type="Active" title="{listItems>itemName}" press="onListItemPress"/>
+               <ObjectListItem type="Active" title="{listItems>itemName} x {listItems>quantity}" press="onListItemPress"/>
                <swipeContent>
                   <Button text="Delete Item" type="Reject" press="handleDeleteGesture"/>
                </swipeContent>

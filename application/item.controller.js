@@ -42,6 +42,9 @@ sap.ui.controller("application.item", {
 
 				var item = sap.ui.getCore().getModel("item").getData();
 				item.id = data.itemId;
+				if (listItems.data === undefined) {
+					listItems.data = [];
+				}
 				listItems.data.push(item);
 
 				var jModel = new sap.ui.model.json.JSONModel(listItems);
