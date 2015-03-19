@@ -13,12 +13,6 @@ sap.ui.controller("application.main", {
 		this.getView().setDisplayBlock(true);
 	},
 
-	onRegisterPress : function () {
-		console.log("Entering onRegisterPress");
-		
-		console.log("Exiting onRegisterPress");
-	},
-
 	checkAlreadyLoggedIn : function () {
 		AjaxModel.post("backend/services/user/checkLoggedIn.php", null, mainController.onCheckAlreadyLoggedInCallback);
   	},

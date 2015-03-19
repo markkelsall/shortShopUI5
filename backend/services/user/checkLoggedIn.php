@@ -12,6 +12,7 @@ header('Content-Type: application/json');
 session_start();
 
 try {
+
 	$loggedIn = checkStillLoggedIn();
 
 	if ($loggedIn == true) {
