@@ -23,13 +23,24 @@ function expireSession () {
     session_destroy();
 }
 
-function encrypt($string) {
-	$salt = getGlobalSalt();
-	$enc_pass = sha1($salt.$string);
-	return $enc_pass;
+function encrypt ($password) {
+	// $hash = password_hash($password, PASSWORD_BCRYPT);
+	// return $hash;
+	$hash = crypt($password, "st");
+	return $hash;
 }
- 
-function getGlobalSalt() {
-        return "random";
+
+function comparePassword ($password, $hash) {
+	// if (password_verify($password, $hash)) {
+	//     return true;
+	// } else {
+	// 	return false;
+	// }
+	$pHash = encrypt($password);
+	if ($pHash == $hash) {
+		return true;
+	} else {
+		return false;
+	}
 }
 ?>

@@ -27,19 +27,25 @@ try {
 	//start database connection
 	$dbConn = new DbConn();
 	$con = $dbConn->dbConnect();
-
-	$hash = encrypt($password);
 	
 	//query against user table
 	$user = new UserDAO($con);
-	$u = $user->login($email, $hash);
+	$u = $user->login($email);
 	
+	//verify password with hash
+	if(!comparePassword($password, $u->password)) {
+		$response = array('user'=> null,'result'=>FALSE, 'message'=>"Sorry, the password provided doesn't match.");
+		echo json_encode($response);
+		exit();
+	}
+
 	//check for a response
 	if ($u->id == null || $u->id == "") {
-		$response = array('user'=> $u,'result'=>FALSE, 'message'=>'No user found');
+		$response = array('user'=> null,'result'=>FALSE, 'message'=>'No user found');
 		echo json_encode($response);
 	} else {
-		
+		$u->password = "";
+
 		//save the logged in user details to the session for access later
 		$_SESSION['loggedInUserId'] = $u->id;
 		$_SESSION['loggedInUserFirstName'] = $u->firstName;

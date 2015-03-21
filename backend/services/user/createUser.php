@@ -8,9 +8,14 @@ include '../../includes/util/util.php';
 
 header('Content-Type: application/json');
 
-//get the user details from post
-if(!isset($_POST['email']) || !isset($_POST['firstName']) || !isset($_POST['lastName']) || !isset($_POST['password'])) {
-	$response = array('user'=> null,'result'=>FALSE, 'message'=>'Email, first name, last name and password are all required');
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+
+//POST the user details from POST
+if(!isset($_POST['email']) || !isset($_POST['firstName']) || !isset($_POST['lastName']) || !isset($_POST['password']) ||
+	!isset($_POST['emailAgain']) || !isset($_POST['passwordAgain'])) {
+	$response = array('user'=> null,'result'=>FALSE, 'message'=>'All fields are required');
 	echo json_encode($response);
 	exit();
 }
@@ -18,12 +23,25 @@ if(!isset($_POST['email']) || !isset($_POST['firstName']) || !isset($_POST['last
 session_start();
 
 $email = $_POST['email'];
+$emailAgain = $_POST['emailAgain'];
 $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
 $password = $_POST['password'];
-$password = $_POST['passwordAgain'];
+$passwordAgain = $_POST['passwordAgain'];
 
 try {
+
+	if ($password != $passwordAgain) {
+		$response = array('user'=> null,'result'=>FALSE, 'message'=>"The passwords entered don't match.");
+		echo json_encode($response);
+		exit();
+	}
+
+	if ($email != $emailAgain) {
+		$response = array('user'=> null,'result'=>FALSE, 'message'=>"The emails entered don't match.");
+		echo json_encode($response);
+		exit();
+	}
 
 	$hash = encrypt($password);
 	
@@ -79,7 +97,7 @@ try {
 	$dbConn->dbClose();
 
 } catch (Exception $e) {
-	$response = array('user'=> null,'result'=>TRUE, 'message'=>$e->getMessage());
+	$response = array('user'=> null,'result'=>TRUE, 'message'=>$e->POSTMessage());
 	echo json_encode($response);
 }
 ?>
