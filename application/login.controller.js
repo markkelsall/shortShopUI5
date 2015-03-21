@@ -33,6 +33,10 @@ sap.ui.controller("application.login", {
 			sap.ui.getCore().setModel(jModel, "listHeader");
 			
 			ssApp.getNavigation().toPage("application.home");
+
+			if (data.user.email === "elin.j.x0@gmail.com") {
+				sap.m.MessageToast.show("Thank you for helping Elin :) - Rainman");
+			}
 		} else {
 			sap.m.MessageToast.show(data.message);
 		}
