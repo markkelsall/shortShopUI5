@@ -8,10 +8,6 @@ include '../../includes/util/util.php';
 
 header('Content-Type: application/json');
 
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
-error_reporting(-1);
-
 //POST the user details from POST
 if(!isset($_POST['email']) || !isset($_POST['firstName']) || !isset($_POST['lastName']) || !isset($_POST['password']) ||
 	!isset($_POST['emailAgain']) || !isset($_POST['passwordAgain'])) {

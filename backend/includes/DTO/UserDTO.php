@@ -5,5 +5,6 @@ class UserDTO {
 	public $dateCreated;
 	public $firstName;
 	public $lastName;
+	public $password;
 }
 ?>

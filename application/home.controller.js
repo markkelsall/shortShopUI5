@@ -17,6 +17,12 @@ sap.ui.controller("application.home", {
 	},
 
 	onUserIconPress : function () {
+		var user = sap.ui.getCore().getModel("user").getData();
+		user.emailAgain = user.email;
+		
+		var userCopyJModel = new sap.ui.model.json.JSONModel(user);
+		sap.ui.getCore().setModel(userCopyJModel, "userCopy");
+
 		ssApp.getNavigation().toPage("application.user");
 	},
 

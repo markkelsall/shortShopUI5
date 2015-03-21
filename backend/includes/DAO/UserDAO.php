@@ -35,11 +35,11 @@ class UserDAO {
 	public function update ($id, $firstName, $lastName, $email) {
 		
 		$sql = "UPDATE user SET firstName='$firstName', lastName='$lastName', email='$email' WHERE id=$id";
-
-		if ($dbConn->query($sql) === TRUE) {
-			return true;
+		$this->dbConn->escape_string($sql);
+		if(!$result = $this->dbConn->query($sql)){
+			throw new Exception('There was an error running the query [' . $this->dbConn->error . ']');
 		} else {
-			return false;
+			return true;
 		}
 	}
 	
