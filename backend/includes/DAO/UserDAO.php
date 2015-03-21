@@ -63,8 +63,8 @@ class UserDAO {
 		}
 	}
 	
-	public function login ($email, $password) {
-		$sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+	public function login ($email) {
+		$sql = "SELECT * FROM user WHERE email = '$email'";
 		$this->dbConn->escape_string($sql);
 		
 		if(!$result = $this->dbConn->query($sql)){
@@ -97,9 +97,7 @@ class UserDAO {
 		foreach ($row as $key => $value) {
 			if (!empty($row[$key])) {
 				//print "$key => $value\n";
-				if ($key !== 'password') {
-					$obj->$key = $value;
-				}
+				$obj->$key = $value;
 			}
 		}
 		return $obj;

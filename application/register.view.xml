@@ -3,7 +3,8 @@
    		<content>
    			<Input type="Text" placeholder="first name" value="{registerUser>/firstName}"/>
             <Input type="Text" placeholder="last name" value="{registerUser>/lastName}"/>
-            <Input type="Text" placeholder="email" value="{registerUser>/email}"/>
+            <Input type="Email" placeholder="email" value="{registerUser>/email}"/>
+            <Input type="Email" placeholder="email" value="{registerUser>/emailAgain}"/>
             <Input type="Password" placeholder="password" value="{registerUser>/password}"/>
             <Input type="Password" placeholder="password" value="{registerUser>/passwordAgain}"/>
             <Button text="Register" press="onRegisterPress" icon="" class="addView_Buttons" iconFirst="false"/>

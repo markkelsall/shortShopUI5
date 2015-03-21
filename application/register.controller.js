@@ -12,6 +12,7 @@ sap.ui.controller("application.register", {
 	},
 
 	onRegisterPress : function () {
+		//validate here on client side
 		var data = sap.ui.getCore().getModel("registerUser").getData();
 		AjaxModel.post("backend/services/user/createUser.php", data, registerController.onRegisterCallback);
 	},
