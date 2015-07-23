@@ -20,12 +20,12 @@ function CITApp(sLocalResources, sViewType, sPlaceAt, sAppViewName, sErrorUri, b
 	this.messageManager = null;
 	this.navigation = null;
 	this.EAOCollection = [];
-	
+
 	//initialise system properties
 	this.bRetrieveSysProp = false;
 	this.sSysPropUrl = "";
 	this.oSysProp = null;
-	
+
 	var that = this;
 	var functionName = this.init;
 
@@ -51,7 +51,7 @@ CITApp.prototype.init = function (citApp) {
 				citApp.handleInitError(e, citApp);
 			}
 		});
-		
+
 	} catch (e) {
 		citApp.handleInitError(e, citApp);
 	}
@@ -60,10 +60,10 @@ CITApp.prototype.init = function (citApp) {
 /**
  * Function to load application main view
  * This method takes the value from CITApp initialise method
- * and set the main view with the splitApp created for the 
- * application (cater for error scenario as well) 
+ * and set the main view with the splitApp created for the
+ * application (cater for error scenario as well)
  * @class CITApp
- * 
+ *
  * @param none
  * @return none
  * @version {@link CITApp}
@@ -87,11 +87,11 @@ CITApp.prototype.loadMainView = function () {
 };
 
 /**
- * Function to initialise Message Manager class, a position variable could 
- * be passed to set the position of message box on application layout 
- *   
+ * Function to initialise Message Manager class, a position variable could
+ * be passed to set the position of message box on application layout
+ *
  * @class CITApp
- * 
+ *
  * @param {String} sPosition - Position on the Layout
  * @return {Boolean} bInitialisedMessageManager -  Boolean to verify if the Message Manager is initialised
  * @version {@link CITApp}
@@ -123,10 +123,10 @@ CITApp.prototype.checkForLogLevel = function (citApp) {
 /**
  * Function to load all files for the project from bootstrap.js
  * (decides to load minified or non-minified version)
- * This method iterate over the nameSpaces & register the module 
- * path, iterate over the CSS array & include style sheets and 
+ * This method iterate over the nameSpaces & register the module
+ * path, iterate over the CSS array & include style sheets and
  * iterate over the JS array & include JS files
- *   
+ *
  * @class CITApp
  * @param none
  * @return none
@@ -139,7 +139,7 @@ CITApp.prototype.loadBootstrap = function () {
 
 		if (bootstrap !== undefined) {
 			//call the method to check whether the application is in debug mode
-			if (bootstrap.debugMode==="forcedTrue") { 
+			if (bootstrap.debugMode==="forcedTrue") {
 				this.debugMode = true; // DEV Mode when always non-minified versions of file is needed.
 			}else if(bootstrap.debugMode==="true"){
 				this.checkForDebugMode();// UAT when URL may influence having minified version or not.
@@ -148,7 +148,7 @@ CITApp.prototype.loadBootstrap = function () {
 			}
 
 			this.logLevel = bootstrap.logLevel;
-			
+
 			//check the system properties
 			if (bootstrap.retrieveSysProp !== undefined && (bootstrap.retrieveSysProp === true || bootstrap.retrieveSysProp === "true") && bootstrap.retrieveSysProp !== undefined && bootstrap.retrieveSysProp !== "") {
 				this.bRetrieveSysProp = true;
@@ -196,9 +196,9 @@ CITApp.prototype.loadBootstrap = function () {
 };
 
 /**
- * Function to check if the "debug" parameter is in the URL & whether 
+ * Function to check if the "debug" parameter is in the URL & whether
  * it is set to true or false
- *   
+ *
  * @class CITApp
  * @param none
  * @return {Boolean} debugMode -  Boolean to verify is debug mode ON?
@@ -219,14 +219,14 @@ CITApp.prototype.checkForDebugMode = function () {
 };
 
 /**
- * Function to initialise EAO class, with passed in credentials and 
- * service URL. This method return a boolean based on successful 
- * initialisation 
- *   
+ * Function to initialise EAO class, with passed in credentials and
+ * service URL. This method return a boolean based on successful
+ * initialisation
+ *
  * @class CITApp
- * 
+ *
  * @param {String} sServiceUrl - Service URL string
- * @param {String} bJson - Boolean value for choosing JSON (true/false) 
+ * @param {String} bJson - Boolean value for choosing JSON (true/false)
  * @param {String} sUsername - For accessing Gateway services User Name
  * @param {String} sPassword - For accessing Gateway services User Password
  * @return {Boolean} bInitialisedEAO -  Boolean to verify if the EAO is initialised
@@ -247,19 +247,10 @@ CITApp.prototype.initialiseEAO = function (sServiceUrl, bJson, sUsername, sPassw
 };
 
 
-/**
- * Author Shambles
- * 
- * function to get the EAO params from the boot strap and add the newly created model to a local structure.
- * eao can they be referenced using a friendly name i.e.
- * 
- * @param name
- * @returns
- */
 CITApp.prototype.getEAO = function (name) {
 	var eaoCollection = this.EAOCollection;
 	var oSysProp = this.oSysProp;
-	
+
 	//check if the EAO has already been loaded locally
 	var eaoExists = false;
 	var returnedEAO = null;
@@ -270,14 +261,14 @@ CITApp.prototype.getEAO = function (name) {
 		}
 	});
 
-	//EAO doesn't exist so we create this and bind to local model array 
+	//EAO doesn't exist so we create this and bind to local model array
 	if(!eaoExists){
 		var eaoBootstrap = sap.ui.getCore().getModel('eaoBootstrap').getData();
 		//Add the model to eaoCollection and set back to the core.
 		$(eaoBootstrap).each(function(x){
 			if(eaoBootstrap[x].name === name){
 				var eaoModel = eaoBootstrap[x];
-				
+
 				//check to see if the sysProp value is set to true
 				//if so, check the sysProp object for CIT App
 				//the name attribute needs to match the system property name
@@ -317,7 +308,7 @@ CITApp.prototype.handleInitError = function (e, citApp) {
 			alert("Error message: " + e.message);
 			alert("Error stack: " + e.stack);
 		}
-		
+
 		if (localStorage !== undefined && localStorage.setItem !== undefined) {
 			localStorage.setItem("errorMessage", e.message);
 			localStorage.setItem("errorStack", e.stack);
@@ -339,12 +330,12 @@ CITApp.prototype.handleInitError = function (e, citApp) {
  * Function to handle call to retrieve system properties
  */
 CITApp.prototype.retrieveSystemProperties = function (citApp, fnCallback) {
-	
+
 	if (!this.bRetrieveSysProp) {
 		fnCallback();
 		return;
 	}
-	
+
 	$.ajax({
 		url: citApp.sSysPropUrl,
 		method : "POST",
